@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // dependencies
 import 'package:video_player/video_player.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 // application
 //
@@ -17,14 +18,101 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
+Widget _buildText(BuildContext context) {
+  return SizedBox(
+    width: MediaQuery.of(context).size.width,
+    child: Center(
+      child: DefaultTextStyle(
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 35,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            Shadow(
+              blurRadius: 7.0,
+              color: Colors.white,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        child: AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            FlickerAnimatedText('BORMENTAL'),
+            FlickerAnimatedText('TV'),
+          ],
+          onTap: () {
+            print("Tap Event");
+          },
+        ),
+      ),
+    )
+  );
+}
+
+Widget _buildTextAfter(BuildContext context) {
+  const colorizeColors = [
+    Colors.purple,
+    Colors.blue,
+    Colors.yellow,
+    Colors.red,
+  ];
+
+  const colorizeTextStyle = TextStyle(
+    fontSize: 24.0,
+    fontWeight: FontWeight.w900,
+    fontFamily: 'Poppins',
+  );
+
+  return SizedBox(
+    child: AnimatedTextKit(
+      animatedTexts: [
+        ColorizeAnimatedText(
+          'Bormental',
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+        ),
+      ],
+      isRepeatingAnimation: true,
+      onTap: () {
+        print("Tap Event");
+      },
+    ),
+  );
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+  );
+}
+
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3),() {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (_) => const  OnBoardScreen()
-      ));
+    Timer(const Duration(seconds: 5),() {
+      Navigator.push(context, FadeRoute(page: const  OnBoardScreen()));
     });
   }
 
@@ -35,26 +123,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           systemNavigationBarIconBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
         ),
         child: Scaffold(
           backgroundColor: Colors.black,
-          body: Center(
-              child:  Text(
-                'Hire.in',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1,
-                    color: Colors.white
-                ),
-              )
-          ),
+          body: _buildText(context),
         )
     );
   }
@@ -69,16 +146,35 @@ class OnBoardScreen extends StatefulWidget {
 
 class _OnBoardScreenState extends State<OnBoardScreen> {
   late VideoPlayerController _controller;
+  late VoidCallback listener;
+
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/videos/bg_video4.mp4');
-    _controller.addListener(() {
-      setState(() {});
-    });
-    _controller.setLooping(true);
+    _controller = VideoPlayerController.asset('assets/videos/bg_video7.mp4');
+
+    listener = () {
+      if (_controller.value.isInitialized) {
+        Duration duration = _controller.value.duration;
+        Duration position = _controller.value.position;
+        if (duration.compareTo(position) != 1) {
+          print("on END");
+        }
+      }
+    };
+
+    _controller.addListener(listener);
+    _controller.setLooping(false);
+    _controller.setVolume(0.0);
     _controller.initialize().then((_) => setState(() {}));
     _controller.play();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.removeListener(listener);
+    _controller.dispose();
   }
 
   @override
@@ -104,28 +200,23 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const CircularProgressIndicator(color: Colors.grey,strokeWidth: 6),
+                    const CircularProgressIndicator(
+                        color: Colors.blue, strokeWidth: 1,
+                    ),
                     Column(
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           'Hire from over lots of people through',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 22,
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.black
                           ),
                         ),
-                        SizedBox(height: 7),
-                        Text(
-                          'Hire.in',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.black
-                          ),
-                        ),
+                        const SizedBox(height: 7),
+                        _buildTextAfter(context),
                       ],
                     ),
                   ],
