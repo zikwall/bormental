@@ -23,7 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   late VideoPlayerController _controller;
   late VoidCallback _listener;
   late AnimationController _animation;
-  late Animation<double> _fadeInFadeOut;
+
 
   bool _isEnd = false;
   bool _isOnBoarded = false;
@@ -32,7 +32,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   void initState() {
     super.initState();
     _animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
-    _fadeInFadeOut = Tween<double>(begin: 0.0, end: 0.1).animate(_animation);
     _controller = VideoPlayerController.asset('assets/videos/bg_video7.mp4');
 
     _listener = () {
@@ -117,40 +116,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     bottom: 30,
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const CircularProgressIndicator(
-                              color: Colors.blue, strokeWidth: 1,
-                            ),
-                            Column(
-                              children: [
-                                const Text(
-                                  'Hire from over lots of people through',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black
-                                  ),
-                                ),
-                                const SizedBox(height: 7),
-                                buildTextAfter(context),
-                              ],
-                            ),
-                          ],
-                        ),
-                        height: 200,
-                        width: MediaQuery.of(context).size.width - 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                      ),
+                      child: buildOverlayBox(context),
                     ),
-                  )
+                  ),
                 ],
               ),
             )

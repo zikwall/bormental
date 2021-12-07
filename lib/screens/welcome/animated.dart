@@ -40,9 +40,9 @@ Widget buildText(BuildContext context) {
 
 Widget buildTextAfter(BuildContext context) {
   const colorizeColors = [
-    Colors.purple,
     Colors.blue,
-    Colors.yellow,
+    Colors.red,
+    Colors.purple,
     Colors.red,
   ];
 
@@ -65,6 +65,66 @@ Widget buildTextAfter(BuildContext context) {
       onTap: () {
         print("Tap Event");
       },
+    ),
+  );
+}
+
+Widget buildRandomText(BuildContext context) {
+  return SizedBox(
+    child: DefaultTextStyle(
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 14.0,
+        color: Colors.black,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w700,
+      ),
+      child: AnimatedTextKit(
+        animatedTexts: [
+          TypewriterAnimatedText('loading assets...'),
+          TypewriterAnimatedText('compiling resources...'),
+          TypewriterAnimatedText('hate JavaScript language...'),
+          TypewriterAnimatedText('it seems almost everything...'),
+          TypewriterAnimatedText('we pretend to be busy...'),
+          TypewriterAnimatedText('it\'s almost, just a little bit'),
+        ],
+        onTap: () {
+          print("Tap Event");
+        },
+      ),
+    ),
+  );
+}
+
+Widget buildOverlayBox(BuildContext context) {
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const CircularProgressIndicator(
+          color: Colors.blue, strokeWidth: 1,
+        ),
+        Column(
+          children: [
+            buildRandomText(context),
+            const SizedBox(height: 7),
+            buildTextAfter(context),
+          ],
+        ),
+      ],
+    ),
+    height: 200,
+    width: MediaQuery.of(context).size.width - 50,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black,
+          blurRadius: 6,
+          //offset: Offset(4, 8), // Shadow position
+        ),
+      ],
     ),
   );
 }
