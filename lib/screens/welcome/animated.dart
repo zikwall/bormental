@@ -26,8 +26,8 @@ Widget buildText(BuildContext context) {
           child: AnimatedTextKit(
             repeatForever: true,
             animatedTexts: [
-              FlickerAnimatedText('BORMENTAL'),
-              FlickerAnimatedText('TV'),
+              FlickerAnimatedText('ZIKWALL'),
+              FlickerAnimatedText('PRODUCTION'),
             ],
             onTap: () {
               print("Tap Event");
