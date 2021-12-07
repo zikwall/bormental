@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // application
-import 'package:bormental/screens/welcome.dart';
+import 'screens/welcome/screen.dart';
 
 void main() {
   runApp(const BormentalApplication());

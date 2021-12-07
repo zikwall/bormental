@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 
 // dependencies
 import 'package:video_player/video_player.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 // application
-//
+import 'animated.dart';
+import 'package:bormental/transitions/fade.dart';
+import 'package:bormental/screens/home/screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({ Key? key }) : super(key: key);
@@ -18,101 +19,12 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-Widget _buildText(BuildContext context) {
-  return SizedBox(
-    width: MediaQuery.of(context).size.width,
-    child: Center(
-      child: DefaultTextStyle(
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 35,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          shadows: [
-            Shadow(
-              blurRadius: 7.0,
-              color: Colors.white,
-              offset: Offset(0, 0),
-            ),
-          ],
-        ),
-        child: AnimatedTextKit(
-          repeatForever: true,
-          animatedTexts: [
-            FlickerAnimatedText('BORMENTAL'),
-            FlickerAnimatedText('TV'),
-          ],
-          onTap: () {
-            print("Tap Event");
-          },
-        ),
-      ),
-    )
-  );
-}
-
-Widget _buildTextAfter(BuildContext context) {
-  const colorizeColors = [
-    Colors.purple,
-    Colors.blue,
-    Colors.yellow,
-    Colors.red,
-  ];
-
-  const colorizeTextStyle = TextStyle(
-    fontSize: 24.0,
-    fontWeight: FontWeight.w900,
-    fontFamily: 'Poppins',
-  );
-
-  return SizedBox(
-    child: AnimatedTextKit(
-      animatedTexts: [
-        ColorizeAnimatedText(
-          'Bormental',
-          textStyle: colorizeTextStyle,
-          colors: colorizeColors,
-        ),
-      ],
-      isRepeatingAnimation: true,
-      onTap: () {
-        print("Tap Event");
-      },
-    ),
-  );
-}
-
-class FadeRoute extends PageRouteBuilder {
-  final Widget page;
-
-  FadeRoute({required this.page})
-      : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
-  );
-}
-
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 5),() {
-      Navigator.push(context, FadeRoute(page: const  OnBoardScreen()));
+      Navigator.push(context, FadeRoute(page: const OnBoardScreen()));
     });
   }
 
@@ -131,7 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
         child: Scaffold(
           backgroundColor: Colors.black,
-          body: _buildText(context),
+          body: buildText(context),
         )
     );
   }
@@ -148,6 +60,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   late VideoPlayerController _controller;
   late VoidCallback listener;
 
+  bool _isEnd = false;
+
   @override
   void initState() {
     super.initState();
@@ -157,8 +71,14 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       if (_controller.value.isInitialized) {
         Duration duration = _controller.value.duration;
         Duration position = _controller.value.position;
-        if (duration.compareTo(position) != 1) {
-          print("on END");
+        if (!_isEnd && position.inMilliseconds >= duration.inMilliseconds) {
+          setState(() {
+            _isEnd = true;
+          });
+
+          Navigator.pushReplacement(context, FadeRoute(
+              page: const HomeScreen(),
+          ));
         }
       }
     };
@@ -175,11 +95,14 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
     super.dispose();
     _controller.removeListener(listener);
     _controller.dispose();
+
+    print("disposed resources");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           SizedBox.expand(
@@ -216,7 +139,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                           ),
                         ),
                         const SizedBox(height: 7),
-                        _buildTextAfter(context),
+                        buildTextAfter(context),
                       ],
                     ),
                   ],
