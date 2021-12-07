@@ -40,10 +40,10 @@ Widget buildText(BuildContext context) {
 
 Widget buildTextAfter(BuildContext context) {
   const colorizeColors = [
+    Colors.purple,
     Colors.blue,
     Colors.red,
-    Colors.purple,
-    Colors.red,
+    Colors.yellow,
   ];
 
   const colorizeTextStyle = TextStyle(
@@ -121,8 +121,7 @@ Widget buildOverlayBox(BuildContext context) {
       boxShadow: const [
         BoxShadow(
           color: Colors.black,
-          blurRadius: 6,
-          //offset: Offset(4, 8), // Shadow position
+          blurRadius: 6, // Shadow position
         ),
       ],
     ),

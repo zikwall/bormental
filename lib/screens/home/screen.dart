@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 //
 
 // application
-//
+import 'cards.dart';
+import 'whatsup.dart';
 
 List<Color> getColorList(Color color) {
   if (color is MaterialColor) {
@@ -29,8 +30,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late AnimationController _animation;
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   late PageController _pageController;
   int _currentPageIndex = 0;
@@ -38,12 +38,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000),);
     _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
+
+    _animation.forward();
   }
 
   @override
@@ -79,46 +77,53 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   )
                 ],
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: const [0.3, 0.5, 0.7, 0.9],
-                    colors: getColorList(Colors.purple),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.3, 0.5, 0.7, 0.9],
+                  colors: getColorList(Colors.purple),
                 )
             ),
             child: OrientationBuilder(
               builder: (context, orientation) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      orientation == Orientation.landscape
-                        ? _buildWhatsUpHorizontal(context)
-                        : _buildWhatsUp(context),
-                      Expanded(
-                        key: _backdropKey,
-                        flex: 1,
-                        child: NotificationListener<ScrollNotification>(
-                          onNotification: (notification) {
-                            if (notification is ScrollEndNotification) {
-                              print("ScrollNotification = ${_pageController.page}");
+                return FadeTransition(
+                  opacity: _animation,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        orientation == Orientation.landscape
+                            ? buildWhatsUpHorizontal(context)
+                            : buildWhatsUp(context),
+                        Expanded(
+                          key: _backdropKey,
+                          flex: 1,
+                          child: NotificationListener<ScrollNotification>(
+                            onNotification: (notification) {
+                              if (notification is ScrollEndNotification) {
+                                print("ScrollNotification = ${_pageController.page}");
 
-                              var currentPage = _pageController.page?.round().toInt() ?? 0;
+                                var currentPage = _pageController.page?.round().toInt() ?? 0;
 
-                              if (_currentPageIndex != currentPage) {
-                                setState(() => _currentPageIndex = currentPage);
+                                if (_currentPageIndex != currentPage) {
+                                  setState(() => _currentPageIndex = currentPage);
+                                }
                               }
-                            }
-                            return true;
-                          },
-                          child: PageView.builder(
-                            controller: _pageController,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _buildCard(context);
+                              return true;
                             },
-                            itemCount: _tasks.length + 1,
+                            child: PageView.builder(
+                              controller: _pageController,
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index == _tasks.length) {
+                                  return buildCardNew(context);
+                                } else {
+                                  return buildCardCategory(context);
+                                }
+                              },
+                              itemCount: _tasks.length + 1,
+                            ),
                           ),
                         ),
-                      ),
-                    ]
+                      ]
+                  ),
                 );
               },
             ),
@@ -126,103 +131,4 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         )
     );
   }
-}
-
-Widget _buildWhatsUpHorizontal(BuildContext context) {
-  return Container(
-    margin: EdgeInsets.only(
-      left: MediaQuery.of(context).size.width * 0.115,
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'What\'s up?',
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              ?.copyWith(color: Colors.white),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildWhatsUp(BuildContext context) {
-  return Container(
-    margin: EdgeInsets.only(
-      left: MediaQuery.of(context).size.width * 0.13,
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'What\'s up?',
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              ?.copyWith(color: Colors.white),
-        ),
-        Text(
-          'Good evening',
-          style: Theme.of(context)
-              .textTheme
-              .subtitle1
-              ?.copyWith(
-              color: Colors.white.withOpacity(0.7)),
-        ),
-        Container(height: 16.0),
-        Text(
-          'You have 5 tasks to complete',
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              ?.copyWith(
-              color: Colors.white.withOpacity(0.7)),
-        ),
-        Container(
-          height: 16.0,
-        )
-      ],
-    ),
-  );
-}
-
-Widget _buildCard(BuildContext context) {
-  return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16.0),
-    ),
-    elevation: 4.0,
-    margin: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-    child: Material(
-      borderRadius: BorderRadius.circular(16.0),
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          //
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.add,
-                size: 52.0,
-                color: Colors.black,
-              ),
-              Container(
-                height: 8.0,
-              ),
-              const Text(
-                'Add Category',
-                style: TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
 }
