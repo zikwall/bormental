@@ -40,10 +40,10 @@ Widget buildText(BuildContext context) {
 
 Widget buildTextAfter(BuildContext context) {
   const colorizeColors = [
-    Colors.purple,
     Colors.blue,
-    Colors.red,
-    Colors.yellow,
+    Color(0xff34a0a4),
+    Color(0xff52b69a),
+    Color(0xff99d98c),
   ];
 
   const colorizeTextStyle = TextStyle(
@@ -97,33 +97,39 @@ Widget buildRandomText(BuildContext context) {
 }
 
 Widget buildOverlayBox(BuildContext context) {
-  return Container(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const CircularProgressIndicator(
-          color: Colors.blue, strokeWidth: 1,
-        ),
-        Column(
-          children: [
-            buildRandomText(context),
-            const SizedBox(height: 7),
-            buildTextAfter(context),
-          ],
-        ),
-      ],
-    ),
-    height: 200,
-    width: MediaQuery.of(context).size.width - 50,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black,
-          blurRadius: 6, // Shadow position
-        ),
-      ],
-    ),
-  );
+  return OrientationBuilder(builder: (context, orientation) {
+    if (orientation == Orientation.landscape) {
+      return Container();
+    }
+
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const CircularProgressIndicator(
+            color: Colors.blue, strokeWidth: 1,
+          ),
+          Column(
+            children: [
+              buildRandomText(context),
+              const SizedBox(height: 7),
+              buildTextAfter(context),
+            ],
+          ),
+        ],
+      ),
+      height: 200,
+      width: MediaQuery.of(context).size.width - 50,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 1, // Shadow position
+          ),
+        ],
+      ),
+    );
+  });
 }

@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: const [0.3, 0.5, 0.7, 0.9],
-                  colors: getColorList(Colors.purple),
+                  colors: getColorList(Colors.blue),
                 )
             ),
             child: OrientationBuilder(
