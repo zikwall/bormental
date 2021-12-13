@@ -120,16 +120,6 @@ Widget buildOverlayBox(BuildContext context) {
       ),
       height: 200,
       width: MediaQuery.of(context).size.width - 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black,
-            blurRadius: 1, // Shadow position
-          ),
-        ],
-      ),
     );
   });
 }

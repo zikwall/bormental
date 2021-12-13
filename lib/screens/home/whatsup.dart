@@ -10,7 +10,7 @@ Widget buildWhatsUpHorizontal(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'What\'s up?',
+          'Hey, What\'s up?',
           style: Theme.of(context)
               .textTheme
               .headline4
@@ -21,7 +21,7 @@ Widget buildWhatsUpHorizontal(BuildContext context) {
   );
 }
 
-Widget buildWhatsUp(BuildContext context) {
+Widget buildWhatsUp(BuildContext context, int countCategories) {
   return Container(
     margin: EdgeInsets.only(
       left: MediaQuery.of(context).size.width * 0.13,
@@ -30,23 +30,24 @@ Widget buildWhatsUp(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'What\'s up?',
+          'Hey, What\'s up?',
           style: Theme.of(context)
               .textTheme
               .headline4
               ?.copyWith(color: Colors.white),
         ),
+        Container(height: 5.0),
         Text(
-          'Good evening',
+          'Приятного вечера',
           style: Theme.of(context)
               .textTheme
               .subtitle1
               ?.copyWith(
               color: Colors.white.withOpacity(0.7)),
         ),
-        Container(height: 16.0),
+        Container(height: 5.0),
         Text(
-          'You have 5 tasks to complete',
+          'В твоей коллекции $countCategories категорий',
           style: Theme.of(context)
               .textTheme
               .bodyText1

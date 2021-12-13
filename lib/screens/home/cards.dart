@@ -1,6 +1,9 @@
 // native
 import 'package:flutter/material.dart';
 
+// fonts
+import 'package:bormental/fonts/fontisto_icons.dart';
+
 Widget buildCardNew(BuildContext context) {
   return Card(
     shape: RoundedRectangleBorder(
@@ -40,7 +43,21 @@ Widget buildCardNew(BuildContext context) {
   );
 }
 
-Widget buildCardCategory(BuildContext context) {
+class CardContent {
+  final String title;
+  final int channels;
+  final String description;
+  final int percentage;
+
+  CardContent(this.title, this.channels, this.description, this.percentage);
+
+  String get channelsCount => 'в категории $channels каналов';
+  String get cardTitle => title;
+  String get cardDescription => description;
+  int get currentPercentage => percentage;
+}
+
+Widget buildCardCategory(BuildContext context, CardContent card) {
   return GestureDetector(
     onTap: () {
       //
@@ -58,15 +75,19 @@ Widget buildCardCategory(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Spacer(
-              flex: 8,
+            Text(
+              card.cardTitle,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(color: Colors.black54),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 4.0),
+              margin: const EdgeInsets.only(top: 4.0),
               child: Hero(
                 tag: "hero",
                 child: Text(
-                  "3 Task",
+                  card.channelsCount,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -74,13 +95,18 @@ Widget buildCardCategory(BuildContext context) {
                 ),
               ),
             ),
-            Text("Todo",
+            const Spacer(
+              flex: 7,
+            ),
+            Text(
+                card.cardDescription,
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
-                    ?.copyWith(color: Colors.black54)),
+                    ?.copyWith(color: Colors.black54)
+            ),
             const Spacer(),
-            _buildProgressIndicator(context, 14),
+            _buildProgressIndicator(context, card.percentage),
           ],
         ),
       ),
@@ -104,7 +130,7 @@ Widget _buildProgressIndicator(BuildContext context, progress) {
                 AnimatedContainer(
                   height: _height,
                   width: (progress / 100) * constraints.maxWidth,
-                  color: Colors.purple,
+                  color: Colors.blue,
                   duration: const Duration(milliseconds: 300),
                 ),
               ],

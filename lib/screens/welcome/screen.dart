@@ -31,8 +31,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
-    _controller = VideoPlayerController.asset('assets/videos/bg_video7.mp4');
+    _animation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _controller = VideoPlayerController.asset('assets/videos/1_5.mp4');
 
     _listener = () {
       if (_controller.value.isInitialized) {
@@ -43,9 +46,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
             _isEnd = true;
           });
 
-          Navigator.pushReplacement(context, FadeRoute(
-            page: const HomeScreen(),
-          ));
+          Timer(const Duration(milliseconds: 3200),() {
+            setState(() {
+              _isOnBoarded = true;
+            });
+
+            Navigator.pushReplacement(context, FadeRoute(
+              page: const HomeScreen(),
+            ));
+          });
         }
       }
     };
