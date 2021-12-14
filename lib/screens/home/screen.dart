@@ -20,75 +20,82 @@ final categories = <CardContent>[
     20,
     'Самые просматриваемые каналы по версии пользователей',
     (Random()).nextInt(100),
+    Colors.blueAccent,
+    getGradient(Colors.blueAccent),
   ),
   CardContent(
     'Региональные',
     11,
     'Смотрите передачи родного села с бабушкой и дедушкой',
     (Random()).nextInt(100),
+    Colors.purple,
+    getGradient(Colors.purple),
   ),
   CardContent(
     'Развлекательные',
     45,
     'То, что надо для отдыха после тяжелого рабочего дня, скучно не будет',
     (Random()).nextInt(100),
+    Colors.orange,
+    getGradient(Colors.orange),
   ),
   CardContent(
     'Спортивные',
     7,
     'Быстрее. Выше. Сильнее. Добро пожаловать в мир спорта',
     (Random()).nextInt(100),
+    Colors.tealAccent,
+    getGradient(Colors.tealAccent),
   ),
   CardContent(
     'Детские',
     105,
     'Надоели спиногрызы? Включите им канал из данной категории - мы позаботимся о них',
     (Random()).nextInt(100),
+    Colors.yellow,
+    getGradient(Colors.yellow),
   ),
   CardContent(
     'Музыкальные',
     25,
     'Моргенчлен, Баста и еще мало знкомые люди ждут Вас',
     (Random()).nextInt(100),
+    Colors.green,
+    getGradient(Colors.green),
   ),
   CardContent(
     'Новостные',
     12,
     'Будьте вкурсе, кого на этот раз посадили',
     (Random()).nextInt(100),
+    Colors.red,
+    getGradient(Colors.red),
   ),
   CardContent(
     'Позновательные',
     9,
     'Зашли сюда деградировать? Тогда мотайте дальше',
     (Random()).nextInt(100),
+    Colors.pinkAccent,
+    getGradient(Colors.pinkAccent),
   ),
   CardContent(
     'Фильмы',
     37,
     'Фильмы, сериалы, аниме, хентай, шутка, сериалов тут нет',
     (Random()).nextInt(100),
+    Colors.blueGrey,
+    getGradient(Colors.blueGrey),
   ),
   CardContent(
     'Избранные',
     777,
     'Все твои любимые категории в одной, как прекрасно',
     (Random()).nextInt(100),
+    Colors.lime,
+    getGradient(Colors.lime),
   ),
 ];
-
-List<Color> getColorList(Color color) {
-  if (color is MaterialColor) {
-    return [
-      color.shade300,
-      color.shade600,
-      color.shade700,
-      color.shade900,
-    ];
-  } else {
-    return List<Color>.filled(4, color);
-  }
-}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -101,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   late AnimationController _animation;
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   late PageController _pageController;
+
   int _currentPageIndex = 0;
+  Gradient backgroundGradient = categories[0].cardGradient;
 
   @override
   void initState() {
@@ -109,8 +118,31 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _animation = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 500),
     );
-    _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
 
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController.addListener(() {
+      ScrollPosition position = _pageController.position;
+      int page = position.pixels
+          ~/ (position.maxScrollExtent
+              / (categories.length.toDouble() - 1));
+
+      double pageDo = (position.pixels
+          / (position.maxScrollExtent
+              / (categories.length.toDouble() - 1)));
+
+      double percent = pageDo - page;
+
+      if (categories.length - 1 < page + 1) {
+        return;
+      }
+
+      setState(() {
+        var gradient1 = categories[page].cardGradient;
+        var gradient2 = categories[page + 1].cardGradient;
+        // ignore: invalid_use_of_protected_member
+        backgroundGradient = gradient1.lerpTo(gradient2, percent)!;
+      });
+    });
     _animation.forward();
   }
 
@@ -144,12 +176,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       spreadRadius: 2
                   )
                 ],
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.3, 0.5, 0.7, 0.9],
-                  colors: getColorList(Colors.blue),
-                )
+                gradient: backgroundGradient
             ),
             child: OrientationBuilder(
               builder: (context, orientation) {

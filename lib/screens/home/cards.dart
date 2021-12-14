@@ -48,13 +48,39 @@ class CardContent {
   final int channels;
   final String description;
   final int percentage;
+  final Color color;
+  final LinearGradient gradient;
 
-  CardContent(this.title, this.channels, this.description, this.percentage);
+  CardContent(this.title, this.channels, this.description, this.percentage, this.color, this.gradient);
 
   String get channelsCount => 'в категории $channels каналов';
   String get cardTitle => title;
   String get cardDescription => description;
   int get currentPercentage => percentage;
+  Color get cardColor => color;
+  Gradient get cardGradient => gradient;
+}
+
+LinearGradient getGradient(Color color) {
+  return LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: const [0.3, 0.5, 0.7, 0.9],
+    colors: getColorList(color),
+  );
+}
+
+List<Color> getColorList(Color color) {
+  if (color is MaterialColor) {
+    return [
+      color.shade300,
+      color.shade600,
+      color.shade700,
+      color.shade900,
+    ];
+  } else {
+    return List<Color>.filled(4, color);
+  }
 }
 
 Widget buildCardCategory(BuildContext context, CardContent card) {
@@ -106,7 +132,7 @@ Widget buildCardCategory(BuildContext context, CardContent card) {
                     ?.copyWith(color: Colors.black54)
             ),
             const Spacer(),
-            _buildProgressIndicator(context, card.percentage),
+            _buildProgressIndicator(context, card.percentage, card.color),
           ],
         ),
       ),
@@ -114,7 +140,7 @@ Widget buildCardCategory(BuildContext context, CardContent card) {
   );
 }
 
-Widget _buildProgressIndicator(BuildContext context, progress) {
+Widget _buildProgressIndicator(BuildContext context, progress, color) {
   const _height = 3.0;
   return Row(
     children: [
@@ -130,7 +156,7 @@ Widget _buildProgressIndicator(BuildContext context, progress) {
                 AnimatedContainer(
                   height: _height,
                   width: (progress / 100) * constraints.maxWidth,
-                  color: Colors.blue,
+                  color: color,
                   duration: const Duration(milliseconds: 300),
                 ),
               ],
