@@ -36,26 +36,32 @@ Widget buildWhatsUp(BuildContext context, int countCategories) {
               .headline4
               ?.copyWith(color: Colors.white),
         ),
-        Container(height: 5.0),
-        Text(
-          'Приятного вечера',
-          style: Theme.of(context)
-              .textTheme
-              .subtitle1
-              ?.copyWith(
-              color: Colors.white.withOpacity(0.7)),
+        Container(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 1),
+          child: Text(
+            'Приятного вечера',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(
+                color: Colors.white.withOpacity(0.7)),
+          ),
         ),
         Container(height: 5.0),
-        Text(
-          'В твоей коллекции $countCategories категорий',
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              ?.copyWith(
-              color: Colors.white.withOpacity(0.7)),
+        Padding(
+          padding: const EdgeInsets.only(left: 1),
+          child: Text(
+            'В твоей коллекции $countCategories категорий',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                ?.copyWith(
+                color: Colors.white.withOpacity(0.7)),
+          ),
         ),
         Container(
-          height: 16.0,
+          height: 10.0,
         )
       ],
     ),

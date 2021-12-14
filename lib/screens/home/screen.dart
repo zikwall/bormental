@@ -1,5 +1,6 @@
 // native
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -159,95 +160,214 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           systemNavigationBarIconBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
         ),
-        child: Scaffold(
-          body: Container(
-            padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.10
-            ),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.grey.shade200,
-                      offset: const Offset(2, 4),
-                      blurRadius: 5,
-                      spreadRadius: 2
-                  )
-                ],
-                gradient: backgroundGradient
-            ),
-            child: OrientationBuilder(
-              builder: (context, orientation) {
-                return FadeTransition(
-                  opacity: _animation,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.13,
-                              right: MediaQuery.of(context).size.width * 0.05,
+        child: WillPopScope(
+          onWillPop: () => showExitDialog(context),
+          child: Scaffold(
+            body: Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.10
+              ),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.grey.shade200,
+                        offset: const Offset(2, 4),
+                        blurRadius: 5,
+                        spreadRadius: 2
+                    )
+                  ],
+                  gradient: backgroundGradient
+              ),
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  return FadeTransition(
+                    opacity: _animation,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.115,
+                              right: 20,
                               bottom: MediaQuery.of(context).size.height * 0.05,
-                          ),
-                          child:
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const <Widget>[
-                              Icon(Fontisto.search, color: Colors.white),
-                              Icon(Fontisto.nav_icon_list_a, color: Colors.white),
-                            ],
-                          ),
-                        ),
-                        orientation == Orientation.landscape
-                            ? buildWhatsUpHorizontal(context)
-                            : buildWhatsUp(context, categories.length),
-                        Expanded(
-                          key: _backdropKey,
-                          flex: 1,
-                          child: NotificationListener<ScrollNotification>(
-                            onNotification: (notification) {
-                              if (notification is ScrollEndNotification) {
-                                print("ScrollNotification = ${_pageController.page}");
-                                var currentPage = _pageController.page?.round().toInt() ?? 0;
-                                if (_currentPageIndex != currentPage) {
-                                  setState(() => _currentPageIndex = currentPage);
-                                }
-                              }
-                              return true;
-                            },
-                            child: PageView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              controller: _pageController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  duration: const Duration(milliseconds: 375),
-                                  child: SlideAnimation(
-                                    horizontalOffset: 6.0,
-                                    child: FadeInAnimation(
-                                      duration: const Duration(milliseconds: 30),
-                                      child: (index == categories.length)
-                                      ? buildCardNew(context)
-                                      : buildCardCategory(
-                                          context, categories[index]
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: categories.length + 1,
+                            ),
+                            child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                _buttonIcon(Fontisto.search, () {}),
+                                _buttonIcon(Fontisto.nav_icon_list_a, () {}),
+                              ],
                             ),
                           ),
-                        ),
-                      ]
-                  ),
-                );
-              },
+                          orientation == Orientation.landscape
+                              ? buildWhatsUpHorizontal(context)
+                              : buildWhatsUp(context, categories.length),
+                          Expanded(
+                            key: _backdropKey,
+                            flex: 1,
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: (notification) {
+                                if (notification is ScrollEndNotification) {
+                                  print("ScrollNotification = ${_pageController.page}");
+                                  var currentPage = _pageController.page?.round().toInt() ?? 0;
+                                  if (_currentPageIndex != currentPage) {
+                                    setState(() => _currentPageIndex = currentPage);
+                                  }
+                                }
+                                return true;
+                              },
+                              child: PageView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                controller: _pageController,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    duration: const Duration(milliseconds: 375),
+                                    child: SlideAnimation(
+                                      horizontalOffset: 6.0,
+                                      child: FadeInAnimation(
+                                        duration: const Duration(milliseconds: 30),
+                                        child: (index == categories.length)
+                                            ? buildCardNew(context)
+                                            : buildCardCategory(
+                                            context, categories[index]
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: categories.length + 1,
+                              ),
+                            ),
+                          ),
+                        ]
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         )
     );
   }
+}
+
+Future<bool> showExitDialog(BuildContext context) async {
+  // show the dialog
+  return await showGeneralDialog(
+    barrierDismissible: true,
+    barrierLabel: '',
+    barrierColor: Colors.black38,
+    transitionDuration: const Duration(milliseconds: 10),
+    pageBuilder: (ctx, anim1, anim2) => _buildExitPopup(context),
+    transitionBuilder: (ctx, anim1, anim2, child) => BackdropFilter(
+      filter: ImageFilter.blur(
+          sigmaX: 1 * anim1.value, sigmaY: 1 * anim1.value
+      ),
+      child: FadeTransition(
+        child: child,
+        opacity: anim1,
+      ),
+    ),
+    context: context,
+  ).then((exit) {
+    return exit is bool && exit;
+  });
+}
+
+Widget _buildExitPopup(BuildContext context) {
+  return OrientationBuilder(
+      builder: (context, orientation) {
+        late double height;
+        late double width;
+
+        if (orientation == Orientation.landscape) {
+          height = MediaQuery.of(context).size.height * 0.55;
+          width = MediaQuery.of(context).size.height * 0.55;
+        } else {
+          height = MediaQuery.of(context).size.height * 0.3;
+          width = MediaQuery.of(context).size.height * 0.3;
+        }
+
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          elevation: 4.0,
+          child: SizedBox(
+            height: height,
+            width: width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Уже уходите?',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            ?.copyWith(color: Colors.black),
+                      ),
+                      const Spacer(),
+                      const Icon(Fontisto.confused, color: Colors.black)
+                    ],
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Может передумаете, у нас печеньки..',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(color: Colors.black54),
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _button('Я передумал', () => Navigator.pop(context, false)),
+                      ),
+                      const Padding(padding: EdgeInsets.only(left: 10)),
+                      Expanded(
+                        child: _button('Уйти', () => Navigator.pop(context, true)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+  );
+}
+
+Widget _buttonIcon(IconData icon, Function onTap) {
+  return InkWell(
+    onTap: () => onTap(),
+    child: Icon(icon, color: Colors.white),
+  );
+}
+
+Widget _button(String text, Function onPress) {
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    backgroundColor: Colors.blue,
+    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+  );
+  return TextButton(
+    style: flatButtonStyle,
+    onPressed: () => onPress(),
+    child: Text(
+      text,
+      style: const TextStyle(color: Colors.white),
+    ),
+  );
 }
