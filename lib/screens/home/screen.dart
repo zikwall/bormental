@@ -12,6 +12,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'cards.dart';
 import 'whatsup.dart';
 import 'exit.dart';
+import 'buttons.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
@@ -24,6 +25,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.blueAccent,
     getGradient(Colors.blueAccent),
+    1,
   ),
   CardContent(
     'Региональные',
@@ -32,6 +34,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.purple,
     getGradient(Colors.purple),
+    2,
   ),
   CardContent(
     'Развлекательные',
@@ -40,6 +43,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.orange,
     getGradient(Colors.orange),
+    3,
   ),
   CardContent(
     'Спортивные',
@@ -48,6 +52,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.tealAccent,
     getGradient(Colors.tealAccent),
+    4,
   ),
   CardContent(
     'Детские',
@@ -56,6 +61,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.yellow,
     getGradient(Colors.yellow),
+    5,
   ),
   CardContent(
     'Музыкальные',
@@ -64,6 +70,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.green,
     getGradient(Colors.green),
+    6,
   ),
   CardContent(
     'Новостные',
@@ -72,6 +79,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.red,
     getGradient(Colors.red),
+    7,
   ),
   CardContent(
     'Позновательные',
@@ -80,6 +88,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.pinkAccent,
     getGradient(Colors.pinkAccent),
+    8,
   ),
   CardContent(
     'Фильмы',
@@ -88,6 +97,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.blueGrey,
     getGradient(Colors.blueGrey),
+    9,
   ),
   CardContent(
     'Избранные',
@@ -96,6 +106,7 @@ final categories = <CardContent>[
     (Random()).nextInt(100),
     Colors.lime,
     getGradient(Colors.lime),
+    10,
   ),
 ];
 
@@ -199,8 +210,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                _buttonIcon(Fontisto.search, () {}),
-                                _buttonIcon(Fontisto.nav_icon_list_a, () {}),
+                                buttonIcon(Fontisto.search, Colors.white, () {}),
+                                buttonIcon(Fontisto.nav_icon_list_a, Colors.white, () {})
                               ],
                             ),
                           ),
@@ -255,11 +266,4 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         )
     );
   }
-}
-
-Widget _buttonIcon(IconData icon, Function onTap) {
-  return InkWell(
-    onTap: () => onTap(),
-    child: Icon(icon, color: Colors.white),
-  );
 }
