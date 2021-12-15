@@ -13,102 +13,10 @@ import 'cards.dart';
 import 'whatsup.dart';
 import 'exit.dart';
 import 'buttons.dart';
+import 'mock.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
-
-final categories = <CardContent>[
-  CardContent(
-    'Популярные',
-    20,
-    'Самые просматриваемые каналы по версии пользователей',
-    (Random()).nextInt(100),
-    Colors.blueAccent,
-    getGradient(Colors.blueAccent),
-    1,
-  ),
-  CardContent(
-    'Региональные',
-    11,
-    'Смотрите передачи родного села с бабушкой и дедушкой',
-    (Random()).nextInt(100),
-    Colors.purple,
-    getGradient(Colors.purple),
-    2,
-  ),
-  CardContent(
-    'Развлекательные',
-    45,
-    'То, что надо для отдыха после тяжелого рабочего дня, скучно не будет',
-    (Random()).nextInt(100),
-    Colors.orange,
-    getGradient(Colors.orange),
-    3,
-  ),
-  CardContent(
-    'Спортивные',
-    7,
-    'Быстрее. Выше. Сильнее. Добро пожаловать в мир спорта',
-    (Random()).nextInt(100),
-    Colors.tealAccent,
-    getGradient(Colors.tealAccent),
-    4,
-  ),
-  CardContent(
-    'Детские',
-    105,
-    'Надоели спиногрызы? Включите им канал из данной категории - мы позаботимся о них',
-    (Random()).nextInt(100),
-    Colors.yellow,
-    getGradient(Colors.yellow),
-    5,
-  ),
-  CardContent(
-    'Музыкальные',
-    25,
-    'Моргенчлен, Баста и еще мало знкомые люди ждут Вас',
-    (Random()).nextInt(100),
-    Colors.green,
-    getGradient(Colors.green),
-    6,
-  ),
-  CardContent(
-    'Новостные',
-    12,
-    'Будьте вкурсе, кого на этот раз посадили',
-    (Random()).nextInt(100),
-    Colors.red,
-    getGradient(Colors.red),
-    7,
-  ),
-  CardContent(
-    'Позновательные',
-    9,
-    'Зашли сюда деградировать? Тогда мотайте дальше',
-    (Random()).nextInt(100),
-    Colors.pinkAccent,
-    getGradient(Colors.pinkAccent),
-    8,
-  ),
-  CardContent(
-    'Фильмы',
-    37,
-    'Фильмы, сериалы, аниме, хентай, шутка, сериалов тут нет',
-    (Random()).nextInt(100),
-    Colors.blueGrey,
-    getGradient(Colors.blueGrey),
-    9,
-  ),
-  CardContent(
-    'Избранные',
-    777,
-    'Все твои любимые категории в одной, как прекрасно',
-    (Random()).nextInt(100),
-    Colors.lime,
-    getGradient(Colors.lime),
-    10,
-  ),
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -177,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           child: Scaffold(
             body: Container(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.10
+                  top: MediaQuery.of(context).size.height * 0.073
               ),
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -200,21 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.115,
-                              right: 20,
-                              bottom: MediaQuery.of(context).size.height * 0.05,
-                            ),
-                            child:
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                buttonIcon(Fontisto.search, Colors.white, () {}),
-                                buttonIcon(Fontisto.nav_icon_list_a, Colors.white, () {})
-                              ],
-                            ),
-                          ),
+                          _buildHeaderPanel(context),
                           orientation == Orientation.landscape
                               ? buildWhatsUpHorizontal(context)
                               : buildWhatsUp(context, categories.length),
@@ -266,4 +160,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         )
     );
   }
+}
+
+Widget _buildHeaderPanel(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: MediaQuery.of(context).orientation == Orientation.landscape
+          ? MediaQuery.of(context).size.width * 0.11
+          : MediaQuery.of(context).size.width * 0.129,
+      right: 20,
+      bottom: MediaQuery.of(context).size.height * 0.10,
+      top: MediaQuery.of(context).orientation == Orientation.landscape
+          ? 29
+          : 0,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        buttonIcon(Fontisto.search, Colors.white, () {}),
+        buttonIcon(Fontisto.nav_icon_list_a, Colors.white, () {})
+      ],
+    ),
+  );
 }

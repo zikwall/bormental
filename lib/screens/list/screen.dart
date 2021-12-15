@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 // application
-import 'package:bormental/screens/home/cards.dart';
+import 'package:bormental/screens/home/types.dart';
 import 'package:bormental/screens/home/buttons.dart';
+import 'list.dart';
+import 'mock.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
@@ -21,17 +23,15 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> with TickerProviderStateMixin {
   late AnimationController animation;
   late Animation<Offset> offset;
-  late ScrollController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _pageController = ScrollController();
 
     animation = AnimationController(
         vsync: this,
         duration: const Duration(
-            milliseconds: 1000
+            milliseconds: 1
         ),
         lowerBound: 0.0,
         upperBound: 1.0
@@ -52,20 +52,6 @@ class _ListScreenState extends State<ListScreen> with TickerProviderStateMixin {
     animation.dispose();
   }
 
-  Future<List<String>> getStringList() async {
-    try {
-      return Future.delayed(const Duration(seconds: 2)).then((value) {
-        final List<String> list = [];
-        for (var i = 0; i <= 200; i++) {
-          list.add('item_$i');
-        }
-        return list;
-      });
-    } catch (e) {
-      return [];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -82,15 +68,7 @@ class _ListScreenState extends State<ListScreen> with TickerProviderStateMixin {
           },
           child: Stack(
             children: <Widget>[
-              Hero(
-                tag: widget.cardContent.cardUUID + "_background",
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-              ),
+              _buildStackedBackground(widget.cardContent),
               Scaffold(
                   backgroundColor: Colors.transparent,
                   body: Container(
@@ -99,115 +77,25 @@ class _ListScreenState extends State<ListScreen> with TickerProviderStateMixin {
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        left: 20, right: 20, top: 40, bottom: 20,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Hero(
-                                tag: widget.cardContent.cardUUID + "_search",
-                                child: Material(
-                                  type: MaterialType.transparency,
-                                  child: buttonIcon(Fontisto.search, Colors.black54, () {}),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Hero(
-                                    tag: widget.cardContent.cardUUID + "_title",
-                                    child: Text(
-                                      widget.cardContent.cardTitle,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5
-                                          ?.copyWith(color: Colors.black54),
-                                    ),
-                                  ),
-                                  Hero(
-                                    tag: widget.cardContent.cardUUID + "_subtitle",
-                                    child: Container(
-                                      margin: const EdgeInsets.only(top: 4.0),
-                                      child: Text(
-                                        widget.cardContent.channelsCount,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(color: Colors.grey[500]),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Hero(
-                                tag: widget.cardContent.cardUUID + "_options",
-                                child: Material(
-                                  type: MaterialType.transparency,
-                                  child: buttonIcon(Fontisto.nav_icon_list_a, Colors.black54, () {}),
-                                ),
-                              )
-                            ],
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 40
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _buildStackedHeader(context, widget.cardContent),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                        ),
+                        _buildStackedFakeContentArea(widget.cardContent),
+                        FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                              position: offset,
+                              child: _buildContentWrap(context)
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                          ),
-                          Hero(
-                            tag: widget.cardContent.cardUUID + "_content",
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Container(),
-                            ),
-                          ),
-                          FadeTransition(
-                              opacity: animation,
-                              child: SlideTransition(
-                                  position: offset,
-                                  child: FutureBuilder<List<String>>(
-                                    future: getStringList(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData && snapshot.data != null) {
-                                        return Column(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              height: 400,
-                                              child: ListView.builder(
-                                                  padding: const EdgeInsets.all(0),
-                                                  physics: const BouncingScrollPhysics(),
-                                                  controller: _pageController,
-                                                  itemCount: snapshot.data?.length,
-                                                  itemBuilder: (BuildContext context, int index) {
-                                                    return Text(snapshot.data![index]);
-                                                  }
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }
-
-                                      return Container(
-                                        color: Colors.green,
-                                        width: double.infinity,
-                                        height: 500,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.9,
-                                            height: 100,
-                                            color: Colors.amber,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                              )
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   )
               ),
@@ -216,4 +104,89 @@ class _ListScreenState extends State<ListScreen> with TickerProviderStateMixin {
         )
     );
   }
+}
+
+Widget _buildStackedFakeContentArea(CardContent card) {
+  return Hero(
+    tag: card.cardUUID + "_content",
+    child: Material(
+      type: MaterialType.transparency,
+      child: Container(),
+    ),
+  );
+}
+
+Widget _buildStackedBackground(CardContent card) {
+  return Hero(
+    tag: card.cardUUID + "_background",
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+    ),
+  );
+}
+
+Widget _buildStackedHeader(BuildContext context, CardContent card) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: <Widget>[
+      Hero(
+        tag: card.cardUUID + "_search",
+        child: Material(
+          type: MaterialType.transparency,
+          child: buttonIcon(Fontisto.search, Colors.black54, () {}),
+        ),
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Hero(
+            tag:card.cardUUID + "_title",
+            child: Text(
+              card.cardTitle,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(color: Colors.black54),
+            ),
+          ),
+          Hero(
+            tag: card.cardUUID + "_subtitle",
+            child: Container(
+              margin: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                card.channelsCount,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: Colors.grey[500]),
+              ),
+            ),
+          ),
+        ],
+      ),
+      Hero(
+        tag: card.cardUUID + "_options",
+        child: Material(
+          type: MaterialType.transparency,
+          child: buttonIcon(Fontisto.nav_icon_list_a, Colors.black54, () {}),
+        ),
+      )
+    ],
+  );
+}
+
+Widget _buildContentWrap(BuildContext context) {
+  return Column(
+    children: <Widget>[
+      SizedBox(
+        height: MediaQuery.of(context).orientation == Orientation.landscape
+            ? MediaQuery.of(context).size.height * 0.71
+            : MediaQuery.of(context).size.height * 0.86,
+        child: buildAnimatedChannelList(getNowTimestamp().toInt(), channels),
+      ),
+    ],
+  );
 }
