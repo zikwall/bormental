@@ -7,6 +7,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 // application
 import 'types.dart';
+import 'package:bormental/screens/watch/screen.dart';
+import 'package:bormental/transitions/slide_left.dart';
 
 Widget buildAnimatedChannelList(int now, List<Channel> channels) {
   return AnimationLimiter(
@@ -33,10 +35,8 @@ Widget _buildChannel(BuildContext context, int now, Channel channel) {
   return InkWell(
     onTap: () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) {
-            return Container();
-          })
-      );
+          context, SlideRightToLeftRoute(page: WatchScreen(channel: channel)
+      ));
     },
     child: buildChannelListItem(context, now, channel),
   );
