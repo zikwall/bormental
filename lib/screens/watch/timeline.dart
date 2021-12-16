@@ -46,9 +46,9 @@ Widget timeline() {
         final status = data[index];
         return OutlinedDotIndicator(
           color:
-          status.isInProgress ? Colors.grey[400] : Color(0xffe6e7e9),
+          status.isInProgress ? Colors.grey[400] : const Color(0xffe6e7e9),
           backgroundColor:
-          status.isInProgress ? Colors.white : Color(0xffc2c5c9),
+          status.isInProgress ? Colors.white : const Color(0xffc2c5c9),
           borderWidth: status.isInProgress ? 3.0 : 2.5,
         );
       },
@@ -72,7 +72,7 @@ Widget timeline() {
             horizontal: 30,
             vertical: 10,
           ),
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: _buildTimelineContent('00:00', '00:00', 'Program name $index'),
         );
       },
@@ -97,7 +97,7 @@ Widget _buildTimelineContent(String a, b, c) {
       const VerticalDivider(
         color: Colors.grey,
       ),
-      Text(c, style: TextStyle(color: Colors.black54)),
+      Text(c, style: const TextStyle(color: Colors.black54)),
     ],
   );
 }
@@ -166,7 +166,7 @@ List<Widget> buildTimelineTabs(BuildContext context) {
 
 Widget _buildTab(String label, double size) {
   return Tab(
-    child: Container(
+    child: SizedBox(
       width: 100,
       child: Align(
         alignment: Alignment.center,
