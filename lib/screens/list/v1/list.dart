@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 // application
-import 'types.dart';
-import 'package:bormental/screens/watch/screen.dart';
+import 'package:bormental/types/channel.dart';
+import '../../watch/v1/screen.dart';
 import 'package:bormental/transitions/slide_left.dart';
 
 Widget buildAnimatedChannelList(int now, List<Channel> channels) {

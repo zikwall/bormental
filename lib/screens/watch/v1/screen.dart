@@ -7,7 +7,7 @@ import 'package:better_player/better_player.dart';
 import 'package:wakelock/wakelock.dart';
 
 // application
-import 'package:bormental/screens/list/types.dart';
+import 'package:bormental/types/channel.dart';
 import 'timeline.dart';
 
 class WatchScreen extends StatefulWidget {

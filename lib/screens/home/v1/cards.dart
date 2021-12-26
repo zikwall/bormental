@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
-import 'package:bormental/screens/list/screen.dart';
+import '../../list/v1/screen.dart';
 
 // application
 import 'buttons.dart';

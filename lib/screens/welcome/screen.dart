@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 // application
 import 'animated.dart';
 import 'package:bormental/transitions/fade.dart';
-import 'package:bormental/screens/home/screen.dart';
+import 'package:bormental/screens/home/v1/screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({ Key? key }) : super(key: key);

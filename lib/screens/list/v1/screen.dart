@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 // application
-import 'package:bormental/screens/home/types.dart';
-import 'package:bormental/screens/home/buttons.dart';
-import 'list.dart';
-import 'mock.dart';
+import 'package:bormental/screens/home/v1/types.dart';
+import 'package:bormental/screens/home/v1/buttons.dart';
+import 'package:bormental/screens/list/v1/list.dart';
+import 'package:bormental/screens/list/v1/mock.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
