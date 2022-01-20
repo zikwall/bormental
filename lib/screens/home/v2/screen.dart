@@ -4,200 +4,125 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-// dependencies
-
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
 
 // application
-import 'material.dart';
+import 'package:bormental/components/bottom/navigation_bar.dart';
+import 'package:bormental/components/bottom/navigation_bar_item.dart';
 import 'package:bormental/screens/home/v1/exit.dart';
-import 'package:bormental/transitions/slide_left.dart';
-import 'package:bormental/screens/profile/screen.dart';
 
-class HomeScreenV2 extends StatefulWidget {
-  const HomeScreenV2({Key? key}) : super(key: key);
+// screens
+import 'package:bormental/components/comming/comming_soon.dart';
 
-  @override
-  _HomeScreenV2State createState() => _HomeScreenV2State();
+import 'home.dart';
+
+List<Widget> _screens(BuildContext context) {
+  return [
+    const HomeScreenV2(),
+    const ComingSoon(Fontisto.heart),
+    const ComingSoon(Fontisto.film),
+    const ComingSoon(Fontisto.nav_icon_list_a),
+  ];
 }
 
-class _HomeScreenV2State extends State<HomeScreenV2> with SingleTickerProviderStateMixin {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+  // initializes
+  late PageController _pageController;
+
+  // states
+  int currentTabIndex = 0;
+
+  void onTapped(int index) {
+    setState(() {
+      currentTabIndex = index;
+    });
+    _pageController.jumpToPage(index);
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: currentTabIndex);
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness: Brightness.dark,
-          statusBarIconBrightness: Brightness.dark,
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: WillPopScope(
         onWillPop: () {
           FocusScope.of(context).unfocus();
           return showExitDialog(context);
         },
-        child: DefaultTabController(
-          length: 7,
-          child: Scaffold(
+        child: Scaffold(
             backgroundColor: Colors.white,
-            body: NestedScrollView(
-                physics: const BouncingScrollPhysics(),
-                floatHeaderSlivers: true,
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverAppBar(
-                    elevation: 1,
-                    snap: true,
-                    floating: true,
-                    pinned: true,
-                    toolbarHeight: 70,
-                    expandedHeight: 120,
-                    titleSpacing: 30,
-                    backgroundColor: Colors.white,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Material(
-                            elevation: 1,
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      splashColor: Colors.transparent,
-                                      icon: const Icon(
-                                          Fontisto.search ,
-                                          color: Colors.black,
-                                          size: 15
-                                      ),
-                                      onPressed: () {}
-                                  ),
-                                  Expanded(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText: "Type Something...",
-                                          hintStyle: TextStyle(
-                                              color: Colors.black.withOpacity(0.5),
-                                              fontSize: 14
-                                          ),
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    splashColor: Colors.transparent,
-                                    icon: const Icon(
-                                        Fontisto.podcast,
-                                        color: Colors.black,
-                                        size: 15
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      FocusScope.of(context).unfocus();
-                                      Navigator.push(
-                                          context, SlideRightToLeftRoute(page: Profile()
-                                      ));
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
-                                      child: CircleAvatar(
-                                        backgroundImage:
-                                        NetworkImage('https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s32-c-mo'),
-                                        backgroundColor: Colors.transparent,
-                                        radius: 10.0,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    centerTitle: true,
-                    bottom: TabBar(
-                      padding: EdgeInsets.only(left: 20),
-                      physics: const BouncingScrollPhysics(),
-                      indicator: MaterialIndicator(
-                        color: Colors.green,
-                        paintingStyle: PaintingStyle.fill,
-                      ),
-                      isScrollable: true,
-                      indicatorWeight: 3,
-                      indicatorColor: Colors.green,
-                      labelColor: Colors.green,
-                      unselectedLabelColor: Colors.black,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      tabs: const [
-                        Tab(text: "Рекомендуем"),
-                        Tab(text: "Все"),
-                        Tab(text: "Популярные"),
-                        Tab(text: "Региональные"),
-                        Tab(text: "Детям"),
-                        Tab(text: "Кино и Сериалы"),
-                        Tab(text: "Bormental Premium"),
-                      ],
-                    ),
-                  )
-                ],
-                body: TabBarView(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: _buildScrollPage(),
-                    ),
-                    const Icon(Icons.directions_transit),
-                    const Icon(Icons.directions_bike),
-                    const Icon(Icons.directions_bike),
-                    const Icon(Icons.directions_bike),
-                    const Icon(Icons.directions_bike),
-                    const Icon(Icons.directions_bike),
-                  ],
-                )
+            // maybe use, but it has performance issue.
+            // IndexedStack loads all tab initially which is unnecessary
+            // body: IndexedStack(
+            //   children: ,
+            //   index: currentTabIndex,
+            // ),
+            body: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: _screens(context),
             ),
-          ),
+            bottomNavigationBar: TitledBottomNavigationBar(
+              enableShadow: true,
+              reverse: true,
+              currentIndex: currentTabIndex,
+              backgroundColor: Colors.white,
+              indicatorColor: Colors.green,
+              inactiveStripColor: Colors.white,
+              activeColor: Colors.green,
+              inactiveColor: Colors.black,
+              onTap: onTapped,
+              items: [
+                _bottomItem('Home', Fontisto.podcast),
+                _bottomItem('Favorite', Fontisto.heart),
+                _bottomItem('Films', Fontisto.film),
+                _bottomItem('Menu', Fontisto.nav_icon_list_a),
+              ],
+            )
         ),
       ),
     );
   }
 }
 
-Widget _buildScrollPage() {
-  final List<Widget> widgets = [];
-  for (var i = 0; i <= 10; i++) {
-    widgets.add(Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent),
-        color: Colors.white,
-      ),
-      height: 100,
-      width: 150,
-    ));
-    widgets.add(const Padding(padding: EdgeInsets.only(top: 10)));
-  }
-
-  return ListView(
-    physics: const BouncingScrollPhysics(),
-    children: widgets,
+TitledNavigationBarItem _bottomItem(String title, IconData icon) {
+  return TitledNavigationBarItem(
+      title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.green,
+            fontSize: 14,
+      )),
+      icon: icon,
+      backgroundColor: Colors.white,
+      size: 15
   );
 }

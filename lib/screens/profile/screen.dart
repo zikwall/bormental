@@ -10,12 +10,14 @@ import 'package:bormental/fonts/fontisto_icons.dart';
 // application
 import 'package:bormental/screens/home/v2/material.dart';
 
-class Profile extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileScreenState extends State<ProfileScreen> {
   static Random random = Random();
 
   @override

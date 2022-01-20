@@ -10,7 +10,6 @@ import 'package:video_player/video_player.dart';
 // application
 import 'animated.dart';
 import 'package:bormental/transitions/fade.dart';
-import 'package:bormental/screens/home/v1/screen.dart';
 import 'package:bormental/screens/home/v2/screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -53,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
             });
 
             Navigator.pushReplacement(context, FadeRoute(
-              page: const HomeScreenV2(),
+              page: const HomeScreen(),
             ));
           });
         }
