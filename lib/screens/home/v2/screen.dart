@@ -12,6 +12,8 @@ import 'package:bormental/fonts/fontisto_icons.dart';
 // application
 import 'material.dart';
 import 'package:bormental/screens/home/v1/exit.dart';
+import 'package:bormental/transitions/slide_left.dart';
+import 'package:bormental/screens/profile/screen.dart';
 
 class HomeScreenV2 extends StatefulWidget {
   const HomeScreenV2({Key? key}) : super(key: key);
@@ -20,7 +22,7 @@ class HomeScreenV2 extends StatefulWidget {
   _HomeScreenV2State createState() => _HomeScreenV2State();
 }
 
-class _HomeScreenV2State extends State<HomeScreenV2> {
+class _HomeScreenV2State extends State<HomeScreenV2> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
           statusBarColor: Colors.transparent,
           systemNavigationBarIconBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
-        ),
+      ),
       child: WillPopScope(
         onWillPop: () {
           FocusScope.of(context).unfocus();
@@ -47,6 +49,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
         child: DefaultTabController(
           length: 7,
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: NestedScrollView(
                 physics: const BouncingScrollPhysics(),
                 floatHeaderSlivers: true,
@@ -58,7 +61,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
                     pinned: true,
                     toolbarHeight: 70,
                     expandedHeight: 120,
-                    titleSpacing: 10,
+                    titleSpacing: 30,
                     backgroundColor: Colors.white,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -104,14 +107,22 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
                                     ),
                                     onPressed: () {},
                                   ),
-                                  IconButton(
-                                    splashColor: Colors.transparent,
-                                    icon: const Icon(
-                                        Fontisto.home,
-                                        color: Colors.black,
-                                        size: 15
+                                  InkWell(
+                                    onTap: () {
+                                      FocusScope.of(context).unfocus();
+                                      Navigator.push(
+                                          context, SlideRightToLeftRoute(page: Profile()
+                                      ));
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                        NetworkImage('https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s32-c-mo'),
+                                        backgroundColor: Colors.transparent,
+                                        radius: 10.0,
+                                      ),
                                     ),
-                                    onPressed: () {},
                                   )
                                 ],
                               ),
@@ -122,6 +133,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
                     ),
                     centerTitle: true,
                     bottom: TabBar(
+                      padding: EdgeInsets.only(left: 20),
                       physics: const BouncingScrollPhysics(),
                       indicator: MaterialIndicator(
                         color: Colors.green,
@@ -137,20 +149,23 @@ class _HomeScreenV2State extends State<HomeScreenV2> {
                         fontSize: 14.0,
                       ),
                       tabs: const [
-                        Tab(text: "screen1"),
-                        Tab(text: "screen2"),
-                        Tab(text: "screen3"),
-                        Tab(text: "screen4"),
-                        Tab(text: "screen5"),
-                        Tab(text: "screen6"),
-                        Tab(text: "screen7"),
+                        Tab(text: "Рекомендуем"),
+                        Tab(text: "Все"),
+                        Tab(text: "Популярные"),
+                        Tab(text: "Региональные"),
+                        Tab(text: "Детям"),
+                        Tab(text: "Кино и Сериалы"),
+                        Tab(text: "Bormental Premium"),
                       ],
                     ),
                   )
                 ],
                 body: TabBarView(
                   children: [
-                    _buildScrollPage(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: _buildScrollPage(),
+                    ),
                     const Icon(Icons.directions_transit),
                     const Icon(Icons.directions_bike),
                     const Icon(Icons.directions_bike),
