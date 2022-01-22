@@ -18,8 +18,6 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -108,9 +106,9 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               centerTitle: false,
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(66.0),
+                preferredSize: const Size.fromHeight(66.0),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -185,7 +183,7 @@ class _MenuScreenState extends State<MenuScreen> {
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -320,7 +318,7 @@ Widget _buildHeaderItem(String label) {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             height: 0.5,
             color: Colors.grey.withOpacity(0.5),
