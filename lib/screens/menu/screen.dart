@@ -15,7 +15,10 @@ class MenuScreen extends StatefulWidget {
   _MenuScreenState createState() => _MenuScreenState();
 }
 
-class _MenuScreenState extends State<MenuScreen> {
+class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMixin<MenuScreen> {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -133,7 +136,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   size: 13,
                                 ),
                                 SizedBox(width: 5),
-                                Text('Перейти в панель управления', style: TextStyle(
+                                Text('Панель управления', style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                 )),
@@ -185,6 +188,7 @@ class _MenuScreenState extends State<MenuScreen> {
             height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
