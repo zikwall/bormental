@@ -10,10 +10,11 @@ import 'package:bormental/fonts/fontisto_icons.dart';
 // application
 import 'package:bormental/components/bottom/navigation_bar.dart';
 import 'package:bormental/components/bottom/navigation_bar_item.dart';
-import 'package:bormental/screens/home/v1/exit.dart';
+import 'package:bormental/components/modals/exit.dart';
 
 // screens
 import 'package:bormental/components/comming/comming_soon.dart';
+import 'package:bormental/screens/menu/screen.dart';
 
 import 'home.dart';
 
@@ -22,7 +23,7 @@ List<Widget> _screens(BuildContext context) {
     const HomeScreenV2(),
     const ComingSoon(Fontisto.heart),
     const ComingSoon(Fontisto.film),
-    const ComingSoon(Fontisto.nav_icon_list_a),
+    const MenuScreen(),
   ];
 }
 
@@ -101,10 +102,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               inactiveColor: Colors.black,
               onTap: onTapped,
               items: [
-                _bottomItem('Home', Fontisto.podcast),
-                _bottomItem('Favorite', Fontisto.heart),
-                _bottomItem('Films', Fontisto.film),
-                _bottomItem('Menu', Fontisto.nav_icon_list_a),
+                _bottomItem('ТВ', Fontisto.podcast),
+                _bottomItem('Избранное', Fontisto.heart),
+                _bottomItem('Фильмы', Fontisto.film),
+                _bottomItem('Еще', Fontisto.nav_icon_list_a),
               ],
             )
         ),

@@ -60,7 +60,7 @@ Widget _buildExitPopup(BuildContext context) {
                   Row(
                     children: <Widget>[
                       Text(
-                        'Уже уходите?',
+                        'Уже уходишь?',
                         style: Theme.of(context)
                             .textTheme
                             .headline5
@@ -72,7 +72,7 @@ Widget _buildExitPopup(BuildContext context) {
                   ),
                   const Spacer(),
                   Text(
-                    'Может передумаете, у нас печеньки..',
+                    'Может передумаешь? У нас печеньки..',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1
@@ -87,7 +87,7 @@ Widget _buildExitPopup(BuildContext context) {
                       ),
                       const Padding(padding: EdgeInsets.only(left: 10)),
                       Expanded(
-                        child: _button('Уйти', () => Navigator.pop(context, true)),
+                        child: _button('Я решил уйти', () => Navigator.pop(context, true)),
                       ),
                     ],
                   )
