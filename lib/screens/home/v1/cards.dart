@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
-import '../../list/v1/screen.dart';
+import 'package:bormental/screens/list/v1/screen.dart';
 
 // application
 import 'buttons.dart';
@@ -48,7 +48,6 @@ Widget buildCardNew(BuildContext context) {
   );
 }
 
-
 Widget buildCardCategory(BuildContext context, CardContent card) {
   return InkWell(
     onTap: () {
@@ -88,15 +87,20 @@ Widget buildCardCategory(BuildContext context, CardContent card) {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Hero(
-                  tag: card.cardUUID + "_title",
-                  child: Text(
-                    card.cardTitle,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        ?.copyWith(color: Colors.black54),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Hero(
+                      tag: card.cardUUID + "_title",
+                      child: Text(
+                        card.cardTitle,
+                        style: Theme.of(context).textTheme.headline5?.copyWith(color: card.cardColor),
+                      ),
+                    ),
+                    if (card.isLocked)
+                      Icon(Fontisto.locked, color: card.cardColor, size: 14)
+                  ],
                 ),
                 Hero(
                   tag: card.cardUUID + "_subtitle",
@@ -104,10 +108,7 @@ Widget buildCardCategory(BuildContext context, CardContent card) {
                     margin: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       card.channelsCount,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: Colors.grey[500]),
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(color: card.cardColor),
                     ),
                   ),
                 ),
@@ -144,10 +145,7 @@ Widget buildCardCategory(BuildContext context, CardContent card) {
                 ),
                 Text(
                     card.cardDescription,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(color: Colors.black54)
+                    style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.black54)
                 ),
                 const Spacer(),
                 _buildProgressIndicator(context, card.percentage, card.color),

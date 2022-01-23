@@ -8,8 +8,9 @@ class CardContent {
   final int percentage;
   final Color color;
   final LinearGradient gradient;
+  final bool isLocked;
 
-  CardContent(this.title, this.channels, this.description, this.percentage, this.color, this.gradient, this.id);
+  CardContent(this.title, this.channels, this.description, this.percentage, this.color, this.gradient, this.id, this.isLocked);
 
   String get cardUUID => 'card_${id.toString()}';
   String get channelsCount => 'в категории $channels каналов';
@@ -18,6 +19,7 @@ class CardContent {
   int get currentPercentage => percentage;
   Color get cardColor => color;
   Gradient get cardGradient => gradient;
+  bool get cardIsLocked => isLocked;
 }
 
 LinearGradient getGradient(Color color) {

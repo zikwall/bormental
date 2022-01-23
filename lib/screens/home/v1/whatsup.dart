@@ -1,7 +1,7 @@
 // native
 import 'package:flutter/material.dart';
 
-Widget buildWhatsUpHorizontal(BuildContext context) {
+Widget buildWhatsUpHorizontal(BuildContext context, int countCategories) {
   return Container(
     margin: EdgeInsets.only(
       left: MediaQuery.of(context).size.width * 0.115,
@@ -10,11 +10,35 @@ Widget buildWhatsUpHorizontal(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Hey, What\'s up?',
+          'Привет, Андрей',
           style: Theme.of(context)
               .textTheme
               .headline4
               ?.copyWith(color: Colors.white),
+        ),
+        Container(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 2),
+          child: Text(
+            'Приятного вечера',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(
+                color: Colors.white),
+          ),
+        ),
+        Container(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 2),
+          child: Text(
+            'В твоей коллекции ${(countCategories/2).toInt()} категорий из $countCategories',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(
+                color: Colors.white),
+          ),
         ),
       ],
     ),
@@ -30,7 +54,7 @@ Widget buildWhatsUp(BuildContext context, int countCategories) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Hey, What\'s up?',
+          'Привет, Андрей.',
           style: Theme.of(context)
               .textTheme
               .headline4
@@ -38,7 +62,7 @@ Widget buildWhatsUp(BuildContext context, int countCategories) {
         ),
         Container(height: 10.0),
         Padding(
-          padding: const EdgeInsets.only(left: 1),
+          padding: const EdgeInsets.only(left: 2),
           child: Text(
             'Приятного вечера',
             style: Theme.of(context)
@@ -48,14 +72,14 @@ Widget buildWhatsUp(BuildContext context, int countCategories) {
                 color: Colors.white.withOpacity(0.7)),
           ),
         ),
-        Container(height: 5.0),
+        Container(height: 10.0),
         Padding(
-          padding: const EdgeInsets.only(left: 1),
+          padding: const EdgeInsets.only(left: 2),
           child: Text(
-            'В твоей коллекции $countCategories категорий',
+            'В твоей коллекции ${(countCategories/2).toInt()} категорий из $countCategories',
             style: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .subtitle1
                 ?.copyWith(
                 color: Colors.white.withOpacity(0.7)),
           ),

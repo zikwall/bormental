@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 // fonts
 import 'package:bormental/fonts/fontisto_icons.dart';
 
+// transactions
+import 'package:bormental/transitions/fade.dart';
+
 // application
 
+// screens
+import 'package:bormental/screens/home/v1/screen.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -30,6 +35,7 @@ class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMi
         statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           floatHeaderSlivers: true,
@@ -202,7 +208,9 @@ class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMi
                         children: <Widget>[
                           _buildHeaderItem('КОНТЕНТ И ДЕЙСТВИЯ'),
                           _buildMenuItem(Fontisto.shopping_package, 'Bormental Premium', () {
-
+                            Navigator.push(context, FadeRoute(
+                              page: const HomeScreen(),
+                            ));
                           }),
                           _buildMenuItem(Fontisto.bitcoin, 'Кошелек', () {
 
@@ -319,7 +327,7 @@ class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMi
 Widget _buildHeaderItem(String label) {
   return (
     Padding(
-      padding: EdgeInsets.only(left: 5),
+      padding: const EdgeInsets.only(left: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +337,7 @@ Widget _buildHeaderItem(String label) {
             height: 0.5,
             color: Colors.grey.withOpacity(0.5),
           ),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           Text(label,
               style: const TextStyle(
                 color: Colors.grey,
@@ -404,6 +412,9 @@ Widget _buildMenuItem(IconData icon, String label, onTap, { Widget? right }) {
     padding: const EdgeInsets.only(top: 10),
     child: InkWell(
       onTap: onTap,
+      customBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.transparent,

@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                       color: Colors.grey.shade200,
@@ -112,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       children: <Widget>[
                         _buildHeaderPanel(context),
                         orientation == Orientation.landscape
-                            ? buildWhatsUpHorizontal(context)
+                            ? buildWhatsUpHorizontal(context, categories.length)
                             : buildWhatsUp(context, categories.length),
                         Expanded(
                           key: _backdropKey,
@@ -167,19 +166,20 @@ Widget _buildHeaderPanel(BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(
       left: MediaQuery.of(context).orientation == Orientation.landscape
-          ? MediaQuery.of(context).size.width * 0.11
+          ? MediaQuery.of(context).size.width * 0.115
           : MediaQuery.of(context).size.width * 0.129,
       right: 20,
       bottom: MediaQuery.of(context).size.height * 0.10,
       top: MediaQuery.of(context).orientation == Orientation.landscape
-          ? 29
+          ? 15
           : 0,
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        buttonIcon(Fontisto.arrow_left, Colors.white, () {}),
-        buttonIcon(Fontisto.nav_icon_list_a, Colors.white, () {})
+        buttonIcon(Fontisto.arrow_left, Colors.white, () {
+          Navigator.pop(context);
+        }),
       ],
     ),
   );
