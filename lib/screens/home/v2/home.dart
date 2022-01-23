@@ -11,8 +11,8 @@ import 'package:bormental/transitions/slide_left.dart';
 import 'package:bormental/screens/profile/screen.dart';
 
 import 'material.dart';
-import 'horizontal.dart';
-import 'event.dart';
+import 'recommendations.dart';
+import 'all.dart';
 
 class HomeScreenV2 extends StatefulWidget {
   const HomeScreenV2({Key? key}) : super(key: key);
@@ -54,9 +54,6 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
   Widget build(BuildContext context) {
     super.build(context);
 
-    final boxItemsBuilder = BoxItemBuilder();
-    final rectangleItemsBuilder = RectangleItemBuilder();
-
     return NestedScrollView(
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
@@ -97,7 +94,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
                           Expanded(
                             child: TextField(
                               decoration: InputDecoration(
-                                  hintText: "Type Something...",
+                                  hintText: "Что-то...",
                                   hintStyle: TextStyle(
                                       color: Colors.black.withOpacity(0.5),
                                       fontSize: 14
@@ -162,98 +159,16 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
         ],
         body: TabBarView(
           controller: _tabController,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: <Widget>[
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                    'На основе Ваших просмотров',
-                    _fakeItems(),
-                    onHeaderClick: () {
-                      print("click header");
-                    },
-                  ),
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                    'Специально для вас',
-                    _fakeItems(),
-                    headerLeftPrefix: 'Реклама',
-                    headerRightIcon: null,
-                  ),
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                    'Рекомендуем',
-                    _fakeItems(),
-                    onHeaderClick: () {
-                      print("click header");
-                    },
-                  ),
-                  buildEventPromo('Не пропустите событие', 'Матрица: Воскрешение', 'Смотрите фантастический боевик Матрица: Воскрешение на Bormental TV с неподражаемым Киану Ривзом',
-                    headerImage: 'https://img.championat.com/s/735x490/news/big/z/z/obzor-matrica-4-voskreshenie_1639587558419925185.jpg',
-                    actionButtonLabel: 'Смотреть',
-                    actionButtonClick: () {
-
-                    }
-                  ),
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                      'Премиум контент',
-                      _fakeItems(),
-                      onHeaderClick: () {
-                        print("click header");
-                      },
-                      headerSubText: 'Для наших дорогих подписчиков'
-                  ),
-                  buildHorizontalScroll(context, rectangleItemsBuilder,
-                    'Специально для вас',
-                    _fakeItems(),
-                    headerLeftPrefix: 'Реклама',
-                    headerRightIcon: null,
-                  ),
-                  buildEventPromo('Встречайте новое событие', 'Человек-Паук: Через вселенные', 'Пауки из разных измерений объединяются перед общей угрозой. Изобретательный кинокомикс с «Оскаром» за анимацию',
-                      headerImage: 'https://xage.ru/media/posts/2018/6/7/spider-man-spider-verse-trailer-introduces-several-heroes.jpg',
-                      actionButtonLabel: 'Подробнее',
-                      actionButtonClick: () {
-
-                      }
-                  ),
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                      'Популярные телеканалы',
-                      _fakeItems(),
-                      onHeaderClick: () {
-                        print("click header");
-                      },
-                  ),
-                  buildHorizontalScroll(context, boxItemsBuilder,
-                    'Сделано в России',
-                    _fakeItems(),
-                    onHeaderClick: () {
-                      print("click header");
-                    },
-                    headerSubText: 'Телеканалы Российских поставщиков'
-                  ),
-                  buildEventPromo('Попробуйте наше новое приложение', 'Bormental Plus++',
-                    'Окажитесь в числе счастливчиков и поучавствуйте в Beta-тестировании нашего нового продукта Bormental Plus. Спешите, места ограничены!',
-                    actionButtonLabel: 'Хочу учавствовать!',
-                    actionButtonClick: () {
-
-                    }
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.directions_transit),
-            const Icon(Icons.directions_bike),
-            const Icon(Icons.directions_bike),
-            const Icon(Icons.directions_bike),
-            const Icon(Icons.directions_bike),
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [
+            RecommendationsScreen(),
+            AllScreen(),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_bike),
           ],
         )
     );
   }
-}
-
-List<BoxItem> _fakeItems() {
-  return List<int>.filled(10, 10).map((e) => BoxItem(
-    "Title $e", "Subtitle $e", ""
-  )).toList();
 }

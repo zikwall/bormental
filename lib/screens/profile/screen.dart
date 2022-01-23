@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Fontisto.arrow_left,
                                         color: Colors.black,
                                         size: 15,
@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const Spacer(),
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Fontisto.email,
                                   color: Colors.black,
                                   size: 16,
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                               ),
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Fontisto.bell,
                                   color: Colors.black,
                                   size: 15,
@@ -106,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                               ),
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Fontisto.ban,
                                   color: Colors.black,
                                   size: 15,
@@ -116,19 +116,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
+                              Material(
+                                child: const CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
+                                  ),
+                                  radius: 30,
                                 ),
-                                radius: 30,
+                                elevation: 2,
+                                borderRadius: BorderRadius.circular(50),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: 20),
+                                padding: const EdgeInsets.only(left: 20),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 16,
                                       ),
                                     ),
-                                    SizedBox(height: 3),
+                                    const SizedBox(height: 3),
                                     const Text(
                                       "Yet Another Software Engineer",
                                       style: TextStyle(
@@ -149,14 +153,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           fontSize: 12
                                       ),
                                     ),
-                                    SizedBox(height: 20),
+                                    const SizedBox(height: 20),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         _buildCategory("Подписки"),
-                                        SizedBox(width: 25),
+                                        const SizedBox(width: 25),
                                         _buildCategory("Подписчики"),
-                                        SizedBox(width: 25),
+                                        const SizedBox(width: 25),
                                         _buildCategory("Лайки"),
                                       ],
                                     ),
@@ -193,11 +197,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 )
               ],
-              body: TabBarView(
+              body: const TabBarView(
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  const Icon(Icons.directions_transit),
-                  const Icon(Icons.directions_bike),
-                  const Icon(Icons.directions_bike),
+                  Icon(Icons.directions_transit),
+                  Icon(Icons.directions_bike),
+                  Icon(Icons.directions_bike),
                 ],
               )
           ),
@@ -214,16 +219,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           Text(
             random.nextInt(10000).toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 color: Colors.black
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 12,
                 color: Colors.grey
             ),

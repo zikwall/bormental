@@ -83,7 +83,7 @@ class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMi
                             style: TextStyle(
                               color: Colors.black.withOpacity(0.9),
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           )
                         ],
@@ -211,7 +211,11 @@ class _MenuScreenState extends State<MenuScreen> with AutomaticKeepAliveClientMi
                             Navigator.push(context, FadeRoute(
                               page: const HomeScreen(),
                             ));
-                          }),
+                          },
+                              color: Colors.purple.withOpacity(0.5),
+                              iconColor: Colors.white,
+                              fontColor: Colors.white,
+                          ),
                           _buildMenuItem(Fontisto.bitcoin, 'Кошелек', () {
 
                           },
@@ -389,16 +393,26 @@ Widget _buildOurSocials() {
   );
 }
 
-Widget _buildMenuItem(IconData icon, String label, onTap, { Widget? right }) {
+Widget _buildMenuItem(
+    IconData icon,
+    String label,
+    onTap,
+    {
+      Widget? right,
+      Color color: Colors.transparent,
+      Color fontColor: Colors.black,
+      Color iconColor: Colors.grey
+    }
+) {
   final items = <Widget>[
     Icon(
       icon,
-      color: Colors.grey,
+      color: iconColor,
       size: 14,
     ),
     const SizedBox(width: 15),
-    Text(label, style: const TextStyle(
-      color: Colors.black,
+    Text(label, style: TextStyle(
+      color: fontColor,
       fontSize: 15,
     )),
   ];
@@ -416,8 +430,9 @@ Widget _buildMenuItem(IconData icon, String label, onTap, { Widget? right }) {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
         child: Row(
