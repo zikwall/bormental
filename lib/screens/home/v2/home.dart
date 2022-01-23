@@ -11,6 +11,7 @@ import 'package:bormental/transitions/slide_left.dart';
 import 'package:bormental/screens/profile/screen.dart';
 
 import 'material.dart';
+import 'horizontal.dart';
 
 class HomeScreenV2 extends StatefulWidget {
   const HomeScreenV2({Key? key}) : super(key: key);
@@ -51,6 +52,9 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final boxItemsBuilder = BoxItemBuilder();
+    final rectangleItemsBuilder = RectangleItemBuilder();
 
     return NestedScrollView(
         physics: const BouncingScrollPhysics(),
@@ -136,7 +140,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
             centerTitle: true,
             bottom: TabBar(
               controller: _tabController,
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               physics: const BouncingScrollPhysics(),
               indicator: MaterialIndicator(
                 color: Colors.green,
@@ -159,8 +163,46 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
           controller: _tabController,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _buildScrollPage(),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: <Widget>[
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                    'На основе Ваших просмотров',
+                    _fakeItems(),
+                    onHeaderClick: () {
+                      print("click header");
+                    },
+                  ),
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                    'Специально для вас',
+                    _fakeItems(),
+                    headerLeftPrefix: 'Реклама',
+                    headerRightIcon: null,
+                  ),
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                    'Рекомендуем',
+                    _fakeItems(),
+                    onHeaderClick: () {
+                      print("click header");
+                    },
+                  ),
+                  buildHorizontalScroll(context, rectangleItemsBuilder,
+                    'Специально для вас',
+                    _fakeItems(),
+                    headerLeftPrefix: 'Реклама',
+                    headerRightIcon: null,
+                  ),
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                    'Сделано в России',
+                    _fakeItems(),
+                    onHeaderClick: () {
+                      print("click header");
+                    },
+                    headerSubText: 'Телеканалы Российских поставщиков'
+                  ),
+                ],
+              ),
             ),
             const Icon(Icons.directions_transit),
             const Icon(Icons.directions_bike),
@@ -173,23 +215,8 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
   }
 }
 
-Widget _buildScrollPage() {
-  final List<Widget> widgets = [];
-  for (var i = 0; i <= 10; i++) {
-    widgets.add(Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent),
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-      ),
-      height: 100,
-      width: 150,
-    ));
-    widgets.add(const Padding(padding: EdgeInsets.only(top: 10)));
-  }
-
-  return ListView(
-    physics: const BouncingScrollPhysics(),
-    children: widgets,
-  );
+List<BoxItem> _fakeItems() {
+  return List<int>.filled(10, 10).map((e) => BoxItem(
+    "Title $e", "Subtitle $e", ""
+  )).toList();
 }
