@@ -12,6 +12,7 @@ import 'package:bormental/screens/profile/screen.dart';
 
 import 'material.dart';
 import 'horizontal.dart';
+import 'event.dart';
 
 class HomeScreenV2 extends StatefulWidget {
   const HomeScreenV2({Key? key}) : super(key: key);
@@ -187,11 +188,40 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
                       print("click header");
                     },
                   ),
+                  buildEventPromo('Не пропустите событие', 'Матрица: Воскрешение', 'Смотрите фантастический боевик Матрица: Воскрешение на Bormental TV с неподражаемым Киану Ривзом',
+                    headerImage: 'https://img.championat.com/s/735x490/news/big/z/z/obzor-matrica-4-voskreshenie_1639587558419925185.jpg',
+                    actionButtonLabel: 'Смотреть',
+                    actionButtonClick: () {
+
+                    }
+                  ),
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                      'Премиум контент',
+                      _fakeItems(),
+                      onHeaderClick: () {
+                        print("click header");
+                      },
+                      headerSubText: 'Для наших дорогих подписчиков'
+                  ),
                   buildHorizontalScroll(context, rectangleItemsBuilder,
                     'Специально для вас',
                     _fakeItems(),
                     headerLeftPrefix: 'Реклама',
                     headerRightIcon: null,
+                  ),
+                  buildEventPromo('Встречайте новое событие', 'Человек-Паук: Через вселенные', 'Пауки из разных измерений объединяются перед общей угрозой. Изобретательный кинокомикс с «Оскаром» за анимацию',
+                      headerImage: 'https://xage.ru/media/posts/2018/6/7/spider-man-spider-verse-trailer-introduces-several-heroes.jpg',
+                      actionButtonLabel: 'Подробнее',
+                      actionButtonClick: () {
+
+                      }
+                  ),
+                  buildHorizontalScroll(context, boxItemsBuilder,
+                      'Популярные телеканалы',
+                      _fakeItems(),
+                      onHeaderClick: () {
+                        print("click header");
+                      },
                   ),
                   buildHorizontalScroll(context, boxItemsBuilder,
                     'Сделано в России',
@@ -200,6 +230,13 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
                       print("click header");
                     },
                     headerSubText: 'Телеканалы Российских поставщиков'
+                  ),
+                  buildEventPromo('Попробуйте наше новое приложение', 'Bormental Plus++',
+                    'Окажитесь в числе счастливчиков и поучавствуйте в Beta-тестировании нашего нового продукта Bormental Plus. Спешите, места ограничены!',
+                    actionButtonLabel: 'Хочу учавствовать!',
+                    actionButtonClick: () {
+
+                    }
                   ),
                 ],
               ),

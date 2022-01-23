@@ -63,6 +63,7 @@ class BoxItemBuilder implements ItemBuilder {
         children: <Widget>[
           Material(
             elevation: 2,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(15.0),
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -109,6 +110,7 @@ class RectangleItemBuilder implements ItemBuilder {
         children: <Widget>[
           Material(
             elevation: 2,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(5.0),
             child: Padding(
               padding: const EdgeInsets.all(10),
