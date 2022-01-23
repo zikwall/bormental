@@ -238,12 +238,12 @@ Widget buildHorizontalScroll(
           padding: const EdgeInsets.only(left: 15),
           scrollDirection: Axis.horizontal,
           children: items.map((item) => InkWell(
-            splashColor: Colors.transparent,
             onTap: () {
               if (onItemClick is Function) {
                 onItemClick(item);
               }
             },
+            borderRadius: BorderRadius.circular(10),
             child: builder.build(item),
           )).toList(),
         ),
