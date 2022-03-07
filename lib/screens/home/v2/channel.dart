@@ -95,17 +95,18 @@ Widget _buildTimeline(double width, int current, int total) {
 }
 
 // channel
-final List<Channel> channels = [
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-  Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
-];
-
+List<Channel> getChannels() {
+  return [
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+    Channel(Current((now() - (Random()).nextInt(1700)).toInt(), (now() + (Random()).nextInt(1700)).toInt(), 'current program description here'), 'Channel 1', ''),
+  ];
+}
 // time
 
 double floatPercent(int total, int current) {
