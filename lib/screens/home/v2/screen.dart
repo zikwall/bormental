@@ -15,17 +15,50 @@ import 'package:bormental/components/modals/exit.dart';
 // screens
 import 'package:bormental/components/comming/comming_soon.dart';
 import 'package:bormental/screens/menu/screen.dart';
+import 'package:bormental/screens/movie/v1/screen.dart';
 
 import 'home.dart';
 
-List<Widget> _screens(BuildContext context) {
-  return [
-    const HomeScreenV2(),
-    const ComingSoon(Fontisto.heart),
-    const ComingSoon(Fontisto.film),
-    const MenuScreen(),
-  ];
+class Screen {
+  final Widget screen;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Color backgroundColor;
+  final bool useShadow;
+
+  Screen(this.screen, this.activeColor, this.backgroundColor, this.useShadow, this.inactiveColor);
 }
+
+final List<Screen> _screens = [
+  Screen(
+    const HomeScreenV2(),
+    Colors.green,
+    Colors.white,
+    true,
+    Colors.black,
+  ),
+  Screen(
+    const ComingSoon(Fontisto.heart),
+    Colors.green,
+    Colors.white,
+    true,
+    Colors.black,
+  ),
+  Screen(
+    const MovieScreen(),
+    const Color(0xffe11d24),
+    Colors.black,
+    false,
+    Colors.white,
+  ),
+  Screen(
+    const MenuScreen(),
+    Colors.green,
+    Colors.white,
+    true,
+    Colors.black,
+  ),
+];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -89,23 +122,39 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
             body: PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: _screens(context),
+              children: _screens.map((Screen screen) => screen.screen).toList(),
             ),
             bottomNavigationBar: TitledBottomNavigationBar(
-              enableShadow: true,
-              reverse: true,
+              enableShadow: _screens[currentTabIndex].useShadow,
+              reverse: _screens[currentTabIndex].useShadow,
               currentIndex: currentTabIndex,
-              backgroundColor: Colors.white,
-              indicatorColor: Colors.green,
-              inactiveStripColor: Colors.white,
-              activeColor: Colors.green,
-              inactiveColor: Colors.black,
+              backgroundColor: _screens[currentTabIndex].backgroundColor,
+              indicatorColor: _screens[currentTabIndex].activeColor,
+              inactiveStripColor: _screens[currentTabIndex].backgroundColor,
+              activeColor: _screens[currentTabIndex].activeColor,
+              inactiveColor: _screens[currentTabIndex].inactiveColor,
               onTap: onTapped,
               items: [
-                _bottomItem('ТВ', Fontisto.podcast),
-                _bottomItem('Избранное', Fontisto.heart),
-                _bottomItem('Фильмы', Fontisto.film),
-                _bottomItem('Еще', Fontisto.nav_icon_list_a),
+                _item(
+                    'ТВ',
+                    Fontisto.podcast,
+                    _screens[currentTabIndex].activeColor
+                ),
+                _item(
+                    'Избранное',
+                    Fontisto.heart,
+                    _screens[currentTabIndex].activeColor
+                ),
+                _item(
+                    'Фильмы',
+                    Fontisto.film,
+                    _screens[currentTabIndex].activeColor
+                ),
+                _item(
+                    'Еще',
+                    Fontisto.nav_icon_list_a,
+                    _screens[currentTabIndex].activeColor
+                ),
               ],
             )
         ),
@@ -114,16 +163,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   }
 }
 
-TitledNavigationBarItem _bottomItem(String title, IconData icon) {
+TitledNavigationBarItem _item(String title, IconData icon, Color fontColor) {
   return TitledNavigationBarItem(
-      title: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.green,
-            fontSize: 14,
-      )),
-      icon: icon,
-      backgroundColor: Colors.white,
-      size: 15
+    title: Text(title, style: TextStyle(color: fontColor, fontSize: 14)),
+    icon: icon,
+    size: 15,
+    backgroundColor: Colors.transparent,
   );
 }

@@ -1,9 +1,6 @@
 // native
 import 'package:flutter/material.dart';
 
-// dependencies
-import 'package:timelines/timelines.dart';
-
 List<_TimelineStatus> data = [
   _TimelineStatus.inProgress,
   _TimelineStatus.inProgress,
@@ -29,57 +26,7 @@ class MyBehavior extends ScrollBehavior {
 }
 
 Widget timeline() {
-  return Timeline.tileBuilder(
-    theme: TimelineThemeData(
-      nodePosition: 0,
-      nodeItemOverlap: true,
-      color: Colors.grey[300],
-      connectorTheme: const ConnectorThemeData(
-        color: Color(0xfff7f7f7),
-        thickness: 15.0,
-      ),
-    ),
-    physics: const BouncingScrollPhysics(),
-    padding: const EdgeInsets.only(left: 20.0),
-    builder: TimelineTileBuilder.connected(
-      indicatorBuilder: (context, index) {
-        final status = data[index];
-        return OutlinedDotIndicator(
-          color:
-          status.isInProgress ? Colors.grey[400] : const Color(0xffe6e7e9),
-          backgroundColor:
-          status.isInProgress ? Colors.white : const Color(0xffc2c5c9),
-          borderWidth: status.isInProgress ? 3.0 : 2.5,
-        );
-      },
-      connectorBuilder: (context, index, connectorType) {
-        var color;
-
-        color = data[index].isInProgress ? Colors.grey : null;
-
-        return SolidLineConnector(
-          color: color,
-        );
-      },
-      contentsBuilder: (context, index) {
-        return Container(
-          decoration: const BoxDecoration(
-              color: Color(0xfff7f7f7),
-              borderRadius: BorderRadius.all(Radius.circular(5))
-          ),
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 30,
-            vertical: 10,
-          ),
-          padding: const EdgeInsets.all(15),
-          child: _buildTimelineContent('00:00', '00:00', 'Program name $index'),
-        );
-      },
-      itemCount: data.length,
-      contentsAlign: ContentsAlign.basic,
-    ),
-  );
+  return Container();
 }
 
 Widget _buildTimelineContent(String a, b, c) {
