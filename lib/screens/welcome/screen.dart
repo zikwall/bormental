@@ -1,6 +1,6 @@
 // native
 import 'dart:async';
-
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +9,12 @@ import 'package:video_player/video_player.dart';
 
 // application
 import 'animated.dart';
+import 'package:bormental/helpers/platform.dart';
 import 'package:bormental/transitions/fade.dart';
 import 'package:bormental/screens/home/v2/screen.dart';
+
+// local
+import 'package:bormental/screens/welcome/popups.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({ Key? key }) : super(key: key);
@@ -24,6 +28,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   late VoidCallback _listener;
   late AnimationController _animation;
 
+  final List<String> advanced = [
+    "com.example.check",
+  ];
 
   bool _isEnd = false;
   bool _isOnBoarded = false;
@@ -45,15 +52,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
           setState(() {
             _isEnd = true;
           });
-
           Timer(const Duration(milliseconds: 3200),() {
             setState(() {
               _isOnBoarded = true;
             });
+            // for access context use schedule instance, or use Future
+            // ```dart
+            //  Future.delayed(Duration.zero,() {
+            //    popup.show(context, ...);
+            //  }
+            // ```
+            SchedulerBinding.instance!.addPostFrameCallback((_) {
+              // call API
+              // return checked apps
+              // return banner message
+              // return another
+              PlatformHelper.isInstalledOneOfPackages(advanced).then((value) {
+                if (value == false) {
+                  // check banner message exist
+                  // create custom banner^
+                  //  - message
+                  //  - update
+                  //  - warning and etc.
+                  // example update message banner
+                  showUpdate(context).then((value) => {
+                    if (!value) {
+                      Navigator.pushReplacement(context, FadeRoute(
+                        page: const HomeScreen(),
+                      ))
+                    } else {
 
-            Navigator.pushReplacement(context, FadeRoute(
-              page: const HomeScreen(),
-            ));
+                    }
+                  });
+                } else {
+                  showBan(context);
+                }
+              });
+            });
           });
         }
       }
