@@ -77,7 +77,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
                 print("click header");
               },
             ),
-            buildEventPromo('Не пропустите событие', 'Матрица: Воскрешение', 'Смотрите фантастический боевик Матрица: Воскрешение на Bormental TV с неподражаемым Киану Ривзом',
+            buildEventPromo(context, '1', 'Не пропустите событие', 'Матрица: Воскрешение', 'Смотрите фантастический боевик Матрица: Воскрешение на Bormental TV с неподражаемым Киану Ривзом',
                 headerImage: 'https://img.championat.com/s/735x490/news/big/z/z/obzor-matrica-4-voskreshenie_1639587558419925185.jpg',
                 actionButtonLabel: 'Смотреть',
                 actionButtonClick: () {
@@ -98,7 +98,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
               headerLeftPrefix: 'Реклама',
               headerRightIcon: null,
             ),
-            buildEventPromo('Встречайте новое событие', 'Человек-Паук: Через вселенные', 'Пауки из разных измерений объединяются перед общей угрозой. Изобретательный кинокомикс с «Оскаром» за анимацию',
+            buildEventPromo(context, '2', 'Встречайте новое событие', 'Человек-Паук: Через вселенные', 'Пауки из разных измерений объединяются перед общей угрозой. Изобретательный кинокомикс с «Оскаром» за анимацию',
                 headerImage: 'https://xage.ru/media/posts/2018/6/7/spider-man-spider-verse-trailer-introduces-several-heroes.jpg',
                 actionButtonLabel: 'Подробнее',
                 actionButtonClick: () {
@@ -120,7 +120,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
                 },
                 headerSubText: 'Телеканалы Российских поставщиков'
             ),
-            buildEventPromo('Попробуйте наше новое приложение', 'Bormental Plus++',
+            buildEventPromo(context, '3', 'Попробуйте наше новое приложение', 'Bormental Plus++',
                 'Окажитесь в числе счастливчиков и поучавствуйте в Beta-тестировании нашего нового продукта Bormental Plus. Спешите, места ограничены!',
                 actionButtonLabel: 'Хочу учавствовать!',
                 actionButtonClick: () {
