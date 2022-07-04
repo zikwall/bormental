@@ -16,35 +16,36 @@ Widget buildEventPromo(
     String actionButtonLabel: 'Подробнее',
   }
 ) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          /// [opaque] set fasle, then the detail page can see the home page screen.
-          opaque: false,
-          transitionDuration: const Duration(milliseconds: 700),
-          fullscreenDialog: true,
-          pageBuilder: (context, _, __) => EventScreen(
-              id: id, image: headerImage
-          ),
-          settings: RouteSettings(arguments: id),
+  return Padding(
+    padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 15, bottom: 15),
+          child: Text(header, style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black
+          )),
         ),
-      );
-    },
-    child:  Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            child: Text(header, style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black
-            )),
-          ),
-          Material(
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 500),
+                pageBuilder: (
+                    BuildContext context,
+                    Animation<double> animation,
+                    Animation<double>
+                    secondaryAnimation
+                    ) => EventScreen(
+                  id: id, image: headerImage ?? '', text: text, title: textHeader,
+                ),
+              ),
+            );
+          },
+          child:  Material(
             color: Colors.white,
             elevation: 2,
             borderRadius: BorderRadius.circular(5),
@@ -68,21 +69,27 @@ Widget buildEventPromo(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Hero(
-                        tag: "${id}_title",
-                        child: Text(textHeader, style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black
-                        ))
+                          tag: "${id}_title",
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Text(textHeader, style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black
+                            )),
+                          )
                       ),
                       const SizedBox(height: 20),
                       Hero(
                           tag: "${id}_text",
-                          child: Text(text, style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black
-                          )),
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Text(text, style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black
+                            )),
+                          )
                       ),
                       if (actionButtonClick != null && actionButtonClick is Function)
                         Padding(
@@ -98,9 +105,9 @@ Widget buildEventPromo(
                 )
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     ),
   );
 }
