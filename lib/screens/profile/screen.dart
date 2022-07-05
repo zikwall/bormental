@@ -1,6 +1,5 @@
-import 'dart:math';
-
 // native
+import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +11,11 @@ import 'package:bormental/screens/home/v2/material.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
-
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  static Random random = Random();
-
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -55,127 +51,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       background: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(
-                                        Fontisto.arrow_left,
-                                        color: Colors.black,
-                                        size: 15,
-                                      ),
-                                      color: Colors.grey,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    Text(
-                                      "@suxxorz",
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(0.9),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                icon: const Icon(
-                                  Fontisto.email,
-                                  color: Colors.black,
-                                  size: 16,
-                                ),
-                                color: Colors.grey,
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Fontisto.bell,
-                                  color: Colors.black,
-                                  size: 15,
-                                ),
-                                color: Colors.grey,
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Fontisto.ban,
-                                  color: Colors.black,
-                                  size: 15,
-                                ),
-                                color: Colors.grey,
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Material(
-                                child: const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
-                                  ),
-                                  radius: 30,
-                                ),
-                                elevation: 2,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Andrey Kapitonov",
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(0.9),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 3),
-                                    const Text(
-                                      "Yet Another Software Engineer",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        _buildCategory("Подписки"),
-                                        const SizedBox(width: 25),
-                                        _buildCategory("Подписчики"),
-                                        const SizedBox(width: 25),
-                                        _buildCategory("Лайки"),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                        children: const <Widget>[
+                          HeaderActionsPanel(),
+                          SizedBox(height: 10),
+                          UserInformation(),
                         ],
                       ),
                     ),
                   ),
                   centerTitle: true,
-                  bottom: TabBar(
-                    physics: const BouncingScrollPhysics(),
+                  bottom: const TabBar(
+                    physics: BouncingScrollPhysics(),
                     indicator: MaterialIndicator(
                       color: Colors.green,
                       paintingStyle: PaintingStyle.fill,
@@ -186,10 +72,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelColor: Colors.green,
                     unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelStyle: const TextStyle(
+                    labelStyle: TextStyle(
                       fontSize: 14.0,
                     ),
-                    tabs: const [
+                    tabs: [
                       Tab(text: "Активность"),
                       Tab(text: "Избранное"),
                       Tab(text: "Группы"),
@@ -210,15 +96,149 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+}
 
-  Widget _buildCategory(String title) {
+class HeaderActionsPanel extends StatelessWidget {
+  const HeaderActionsPanel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Fontisto.arrow_left,
+                  color: Colors.black,
+                  size: 15,
+                ),
+                color: Colors.grey,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Text(
+                "@suxxorz",
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.9),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              )
+            ],
+          ),
+        ),
+        const Spacer(),
+        IconButton(
+          icon: const Icon(
+            Fontisto.email,
+            color: Colors.black,
+            size: 16,
+          ),
+          color: Colors.grey,
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(
+            Fontisto.bell,
+            color: Colors.black,
+            size: 15,
+          ),
+          color: Colors.grey,
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(
+            Fontisto.ban,
+            color: Colors.black,
+            size: 15,
+          ),
+          color: Colors.grey,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class UserInformation extends StatelessWidget {
+  const UserInformation({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Material(
+          child: const CircleAvatar(
+            backgroundImage: NetworkImage(
+              "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
+            ),
+            radius: 30,
+          ),
+          elevation: 2,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Andrey Kapitonov",
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.9),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 3),
+              const Text(
+                "Yet Another Software Engineer",
+                style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 12
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const <Widget>[
+                  Category(title: "Подписки"),
+                  SizedBox(width: 25),
+                  Category(title: "Подписчики"),
+                  SizedBox(width: 25),
+                  Category(title: "Лайки"),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  final String title;
+  const Category({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.transparent,
       onTap: () {},
       child: Column(
         children: <Widget>[
           Text(
-            random.nextInt(10000).toString(),
+            Random().nextInt(10000).toString(),
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

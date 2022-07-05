@@ -12,8 +12,6 @@ import 'animated.dart';
 import 'package:bormental/helpers/platform.dart';
 import 'package:bormental/transitions/fade.dart';
 import 'package:bormental/screens/home/v2/screen.dart';
-
-// local
 import 'package:bormental/screens/welcome/popups.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -75,17 +73,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                   //  - update
                   //  - warning and etc.
                   // example update message banner
-                  showUpdate(context).then((value) => {
+                  showUpdatePopup(context).then((value) => {
                     if (!value) {
                       Navigator.pushReplacement(context, FadeRoute(
                         page: const HomeScreen(),
                       ))
                     } else {
-
+                      Navigator.pushReplacement(context, FadeRoute(
+                        page: const HomeScreen(),
+                      ))
                     }
                   });
                 } else {
-                  showBan(context);
+                  showBanPopup(context);
                 }
               });
             });
@@ -121,15 +121,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     if (!_isOnBoarded) {
-      return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: const SystemUiOverlayStyle(
+      return const AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             systemNavigationBarIconBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.dark,
           ),
           child: Scaffold(
             backgroundColor: Colors.black,
-            body: buildText(context),
+            body: OnBoardIntro(),
           )
       );
     }
@@ -156,11 +156,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                       ),
                     ),
                   ),
-                  Positioned.fill(
+                  const Positioned.fill(
                     bottom: 30,
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: buildOverlayBox(context),
+                      child: OverlayBox(),
                     ),
                   ),
                 ],

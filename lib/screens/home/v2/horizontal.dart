@@ -144,85 +144,100 @@ class RectangleItemBuilder implements ItemBuilder {
   }
 }
 
-Widget buildHorizontalScroll(
-    BuildContext context,
-    ItemBuilder builder,
-    String header,
-    List<BoxItem> items,
-    // optional arguments
-    {
-      onHeaderClick,
-      onItemClick,
-      headerRightIcon: Fontisto.arrow_right,
-      headerLeftPrefix,
-      headerSubText,
-    }
-) {
-  return Column(
-    children: <Widget>[
-      InkWell(
-        onTap: onHeaderClick,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  if (headerLeftPrefix != null && headerLeftPrefix is String)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Text(headerLeftPrefix, style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black
-                      )),
+class HorizontalScroll extends StatelessWidget {
+  final ItemBuilder builder;
+  final String header;
+  final List<BoxItem> items;
+  final Function? onHeaderClick;
+  final Function? onItemClick;
+  final IconData? headerRightIcon;
+  final String? headerLeftPrefix;
+  final String? headerSubText;
+
+  const HorizontalScroll({
+    Key? key,
+    required this.builder,
+    required this.header,
+    required this.items,
+    this.onHeaderClick,
+    this.onItemClick,
+    this.headerRightIcon,
+    this.headerLeftPrefix,
+    this.headerSubText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+            if (onHeaderClick != null) {
+              onHeaderClick!();
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    if (headerLeftPrefix != null && headerLeftPrefix is String)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Text(headerLeftPrefix!, style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black
+                        )),
+                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(header, style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black
+                        )),
+                        if (headerSubText != null && headerSubText is String)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Text(headerSubText!, style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey
+                            )),
+                          ),
+                      ],
                     ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(header, style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black
-                      )),
-                      if (headerSubText != null && headerSubText is String)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text(headerSubText, style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey
-                          )),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-              if (headerRightIcon != null)
-                Icon(headerRightIcon, size: 13, color: Colors.black)
-            ],
+                  ],
+                ),
+                if (headerRightIcon != null)
+                  Icon(headerRightIcon!, size: 13, color: Colors.black)
+              ],
+            ),
           ),
         ),
-      ),
-      SizedBox(
-        height: builder.height(),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(left: 15),
-          scrollDirection: Axis.horizontal,
-          children: items.map((item) => InkWell(
-            onTap: () {
-              if (onItemClick is Function) {
-                onItemClick(item);
-              }
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: builder.build(item),
-          )).toList(),
-        ),
-      )
-    ],
-  );
+        SizedBox(
+          height: builder.height(),
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(left: 15),
+            scrollDirection: Axis.horizontal,
+            children: items.map((item) => InkWell(
+              onTap: () {
+                if (onItemClick is Function) {
+                  onItemClick!(item);
+                }
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: builder.build(item),
+            )).toList(),
+          ),
+        )
+      ],
+    );
+  }
 }

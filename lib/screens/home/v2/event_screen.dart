@@ -24,6 +24,140 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> with TickerProviderStateMixin {
+  late AnimationController animation;
+  late Animation<Offset> offset;
+
+  @override
+  void initState() {
+    super.initState();
+    animation = AnimationController(
+        vsync: this,
+        duration: const Duration(
+            milliseconds: 500
+        ),
+        lowerBound: 0.0,
+        upperBound: 1.0
+    );
+
+    offset = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero)
+        .animate(animation);
+
+    animation.forward();
+    animation.reverseDuration = const Duration(
+        milliseconds: 300
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animation.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        animation.reverse();
+        await Future.delayed(const Duration(milliseconds: 300));
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: CustomScrollView(
+            slivers: <Widget>[
+              if (widget.image != '')
+                ImageSilver(id: widget.id, image: widget.image),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 50, bottom: 30
+                      ),
+                      child: ContentSilver(
+                          id: widget.id,
+                          title: widget.title,
+                          text: widget.text,
+                          animation: animation,
+                          offset: offset
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContentSilver extends StatelessWidget {
+  final String id;
+  final String title;
+  final String text;
+  final AnimationController animation;
+  final Animation<Offset> offset;
+
+  const ContentSilver({
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.text,
+    required this.animation,
+    required this.offset,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Hero(
+          tag: "${id}_title",
+          child: Material(
+            type: MaterialType.transparency,
+            child: Text(title, style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Colors.black
+            )),
+          ),
+        ),
+        const SizedBox(height: 30),
+        Hero(
+          tag: "${id}_text",
+          child: Material(
+            type: MaterialType.transparency,
+            child: Text(text, style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.black
+            )),
+          ),
+        ),
+        const SizedBox(height: 30),
+        FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: offset,
+            child: Text(_text, style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.black
+            )),
+          ),
+        )
+      ],
+    );
+  }
+
   final String _text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod '
       'tempor incididunt ut labore et dolore magna aliqua. Vulputate dignissim '
@@ -80,131 +214,34 @@ class _EventScreenState extends State<EventScreen> with TickerProviderStateMixin
       'mattis molestie. adipiscing elit duis tristique sollicitudin nibh sit '
       'amet commodo nulla. pretium viverra suspendisse potenti nullam ac tortor '
       'vitae.\n';
+}
 
-  late String text;
-  late String title;
+class ImageSilver extends StatelessWidget {
+  final String id;
+  final String image;
 
-  late AnimationController animation;
-  late Animation<Offset> offset;
-
-  @override
-  void initState() {
-    super.initState();
-    animation = AnimationController(
-        vsync: this,
-        duration: const Duration(
-            milliseconds: 500
-        ),
-        lowerBound: 0.0,
-        upperBound: 1.0
-    );
-
-    offset = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero)
-        .animate(animation);
-
-    animation.forward();
-    animation.reverseDuration = const Duration(
-        milliseconds: 300
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    animation.dispose();
-  }
+  const ImageSilver({
+    Key? key,
+    required this.id,
+    required this.image
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        animation.reverse();
-        await Future.delayed(const Duration(milliseconds: 300));
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              if (widget.image != '')
-                SliverAppBar(
-                  expandedHeight: 300,
-                  // hide the back button
-                  leading: Container(),
-                  backgroundColor: Colors.white,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Hero(
-                      tag: widget.id,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                        child: Image.network(
-                          widget.image,
-                          fit: BoxFit.cover,
-                          height: 300,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, top: 50, bottom: 30
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Hero(
-                            tag: "${widget.id}_title",
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(widget.title, style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black
-                              )),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          Hero(
-                            tag: "${widget.id}_text",
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(widget.text, style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black
-                              )),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(
-                              position: offset,
-                              child: Text(_text, style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black
-                              )),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return SliverAppBar(
+      expandedHeight: 300,
+      // hide the back button
+      leading: Container(),
+      backgroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Hero(
+          tag: id,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            child: Image.network(image, fit: BoxFit.cover, height: 300),
           ),
         ),
       ),

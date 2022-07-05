@@ -1,6 +1,5 @@
 // native
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 // fonts
@@ -9,14 +8,21 @@ import 'package:bormental/fonts/fontisto_icons.dart';
 // application
 import 'package:bormental/transitions/slide_left.dart';
 import 'package:bormental/screens/profile/screen.dart';
+import 'package:bormental/screens/home/v2/material.dart';
+import 'package:bormental/screens/home/v2/recommendations.dart';
+import 'package:bormental/screens/home/v2/all.dart';
 
-import 'material.dart';
-import 'recommendations.dart';
-import 'all.dart';
+const tabs = [
+  Tab(text: "Рекомендуем"),
+  Tab(text: "Все"),
+  Tab(text: "Популярные"),
+  Tab(text: "Региональные"),
+  Tab(text: "Детям"),
+  Tab(text: "Кино и Сериалы"),
+];
 
 class HomeScreenV2 extends StatefulWidget {
   const HomeScreenV2({Key? key}) : super(key: key);
-
   @override
   _HomeScreenV2State createState() => _HomeScreenV2State();
 }
@@ -26,14 +32,6 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
     AutomaticKeepAliveClientMixin<HomeScreenV2>
 {
   late TabController _tabController;
-  final tabs = [
-    const Tab(text: "Рекомендуем"),
-    const Tab(text: "Все"),
-    const Tab(text: "Популярные"),
-    const Tab(text: "Региональные"),
-    const Tab(text: "Детям"),
-    const Tab(text: "Кино и Сериалы"),
-  ];
 
   @override
   bool get wantKeepAlive => true;
@@ -53,7 +51,6 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     return NestedScrollView(
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
@@ -80,56 +77,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Row(
-                        children: [
-                          IconButton(
-                              splashColor: Colors.transparent,
-                              icon: const Icon(
-                                  Fontisto.search ,
-                                  color: Colors.black,
-                                  size: 15
-                              ),
-                              onPressed: () {}
-                          ),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Что-то...",
-                                  hintStyle: TextStyle(
-                                      color: Colors.black.withOpacity(0.5),
-                                      fontSize: 14
-                                  ),
-                                  border: InputBorder.none),
-                            ),
-                          ),
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            icon: const Icon(
-                                Fontisto.mic,
-                                color: Colors.black,
-                                size: 15
-                            ),
-                            onPressed: () {},
-                          ),
-                          InkWell(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Navigator.push(
-                                  context, SlideRightToLeftRoute(page: const ProfileScreen()
-                              ));
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
-                              child: CircleAvatar(
-                                backgroundImage:
-                                NetworkImage('https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s32-c-mo'),
-                                backgroundColor: Colors.transparent,
-                                radius: 10.0,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      child: const Search(),
                     ),
                   ),
                 ),
@@ -169,6 +117,63 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
             Icon(Icons.directions_bike),
           ],
         )
+    );
+  }
+}
+
+class Search extends StatelessWidget {
+  const Search({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      children: [
+        IconButton(
+            splashColor: Colors.transparent,
+            icon: const Icon(
+                Fontisto.search ,
+                color: Colors.black,
+                size: 15
+            ),
+            onPressed: () {}
+        ),
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+                hintText: "Что-то...",
+                hintStyle: TextStyle(
+                    color: Colors.black.withOpacity(0.5),
+                    fontSize: 14
+                ),
+                border: InputBorder.none),
+          ),
+        ),
+        IconButton(
+          splashColor: Colors.transparent,
+          icon: const Icon(
+              Fontisto.mic,
+              color: Colors.black,
+              size: 15
+          ),
+          onPressed: () {},
+        ),
+        InkWell(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            Navigator.push(
+                context, SlideRightToLeftRoute(page: const ProfileScreen()
+            ));
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
+            child: CircleAvatar(
+              backgroundImage:
+              NetworkImage('https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s32-c-mo'),
+              backgroundColor: Colors.transparent,
+              radius: 10.0,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
