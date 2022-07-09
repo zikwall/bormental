@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 
 // application
-import 'horizontal.dart';
-import 'event.dart';
+import 'package:bormental/helpers/platform.dart';
+import 'package:bormental/screens/home/v2/horizontal.dart';
+import 'package:bormental/screens/home/v2/event.dart';
 
 final boxItemsBuilder = BoxItemBuilder();
 final rectangleItemsBuilder = RectangleItemBuilder();
@@ -33,10 +34,8 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
 
   Future updateState() {
     return Future.delayed(const Duration(milliseconds: 1500), () {
-      print("REFRESH RECOMMENDATIONS");
-      setState(() {
-
-      });
+      debugPrint("REFRESH RECOMMENDATIONS");
+      setState(() {});
     });
   }
 
@@ -59,7 +58,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
                 header: 'На основе Ваших просмотров',
                 items: _fakeItems(),
                 onHeaderClick: () {
-                  print("click header");
+                  debugPrint("click header");
                 },
             ),
             HorizontalScroll(
@@ -74,7 +73,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
               header: 'Рекомендуем',
               items: _fakeItems(),
               onHeaderClick: () {
-                print("click header");
+                debugPrint("click header");
               },
             ),
             const EventPromo(
@@ -90,7 +89,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
               header: 'Премиум контент',
               items: _fakeItems(),
               onHeaderClick: () {
-                  print("click header");
+                debugPrint("click header");
               },
               headerSubText: 'Для наших дорогих подписчиков'
             ),
@@ -114,7 +113,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
               header: 'Популярные телеканалы',
               items: _fakeItems(),
               onHeaderClick: () {
-                print("click header");
+                debugPrint("click header");
               },
             ),
             HorizontalScroll(
@@ -122,7 +121,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
               header: 'Сделано в России',
               items: _fakeItems(),
               onHeaderClick: () {
-                print("click header");
+                debugPrint("click header");
               },
               headerSubText: 'Телеканалы Российских поставщиков'
             ),

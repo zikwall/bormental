@@ -22,7 +22,9 @@ class PlatformHelper {
     try {
       status = await platform.invokeMethod('installedFromMarket');
     } on PlatformException catch (e) {
-      print(e);
+      if (!isProd) {
+        foundation.debugPrint(e.toString());
+      }
       return false;
     }
     return status;
@@ -41,9 +43,13 @@ class PlatformHelper {
         'packages': merged,
       });
     } on PlatformException catch (e) {
-      print(e);
+      if (!isProd) {
+        foundation.debugPrint(e.toString());
+      }
       return false;
     }
     return status;
   }
+
+  static bool get isDev => foundation.kDebugMode;
 }

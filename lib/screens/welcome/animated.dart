@@ -34,7 +34,7 @@ class OnBoardIntro extends StatelessWidget {
                 FlickerAnimatedText('PRODUCTION'),
               ],
               onTap: () {
-                print("Tap Event");
+                debugPrint("Tap Event");
               },
             ),
           ),
@@ -72,7 +72,7 @@ class TextAfterRender extends StatelessWidget {
         ],
         isRepeatingAnimation: true,
         onTap: () {
-          print("Tap Event");
+          debugPrint("Tap Event");
         },
       ),
     );
@@ -103,7 +103,7 @@ class RandomAdvices extends StatelessWidget {
             TypewriterAnimatedText('it\'s almost, just a little bit'),
           ],
           onTap: () {
-            print("Tap Event");
+            debugPrint("Tap Event");
           },
         ),
       ),

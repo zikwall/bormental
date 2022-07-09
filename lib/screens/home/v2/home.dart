@@ -88,7 +88,7 @@ class _HomeScreenV2State extends State<HomeScreenV2> with
               controller: _tabController,
               padding: const EdgeInsets.only(left: 20),
               physics: const BouncingScrollPhysics(),
-              indicator: MaterialIndicator(
+              indicator: const MaterialIndicator(
                 color: Colors.green,
                 paintingStyle: PaintingStyle.fill,
               ),
