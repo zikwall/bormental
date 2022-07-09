@@ -21,14 +21,12 @@ import 'search.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({Key? key}) : super(key: key);
-
   @override
   _MovieScreenState createState() => _MovieScreenState();
 }
 
 class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClientMixin<MovieScreen> {
   final CarouselController _carouselController = CarouselController();
-  int _current = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -68,9 +66,9 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
+                  children: const <Widget>[
                     Expanded(
-                      child: _buildHeader(context),
+                      child: PageHeader(),
                     ),
                   ],
                 ),
@@ -118,11 +116,14 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
           future: futureDiscoverMovie,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return _buildPopularCarousel(context, snapshot, _carouselController, (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              });
+              return PopularCarousel(
+                  snapshot: snapshot,
+                  carouselController: _carouselController,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                    });
+                  }
+              );
             } else if (snapshot.hasError) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +133,6 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
                 ],
               );
             }
-
             return Padding(
               padding: const EdgeInsets.only(top: 100),
               child: Center(
@@ -148,94 +148,108 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
   }
 }
 
-Widget _buildHeader(BuildContext context) {
-  return InkWell(
-    onTap: () {
-      FocusScope.of(context).unfocus();
-      Navigator.push(
-          context, SlideRightToLeftRoute(page: const ProfileScreen()
-      ));
-    },
-    borderRadius: BorderRadius.circular(10),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Привет, Андрей', style: kHeaderTitle),
-              const SizedBox(height: 7),
-              Text("Посмотрим, Что будет Дальше", style: kHeaderSubtitle),
-            ],
-          ),
-          const CircleAvatar(
-            backgroundImage: NetworkImage(
-              "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
-            ),
-            radius: 30,
-          ),
-        ],
-      ),
-    ),
-  );
-}
+class PopularCarousel extends StatelessWidget {
+  final AsyncSnapshot<Movie> snapshot;
+  final CarouselController carouselController;
+  final Function(int index, CarouselPageChangedReason reason) onPageChanged;
 
-Widget _buildPopularCarousel(
-    BuildContext context,
-    AsyncSnapshot<Movie> snapshot,
-    CarouselController carouselController,
-    Function(int index, CarouselPageChangedReason reason) onPageChanged
-) {
-  return SizedBox(
-    height: 256,
-    child: CarouselSlider(
-      options: CarouselOptions(
-          height: 256.0,
-          aspectRatio: 16 / 9,
-          viewportFraction: MediaQuery.of(context).orientation == Orientation.landscape ? 0.25 : 0.45,
-          enlargeCenterPage: true,
-          autoPlay: true,
-          autoPlayAnimationDuration:
-          const Duration(milliseconds: 500),
-          onPageChanged: onPageChanged
-      ),
-      carouselController: carouselController,
-      items: [
-        ...snapshot.data!.results!.map((item) => GestureDetector(
-          onTap: () {
-            //
-          },
-          child: Container(
-            height: 256,
-            width: 170,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: CachedNetworkImage(
-                imageUrl: posterUrl + item.posterPath.toString(),
-                fit: BoxFit.scaleDown,
-                placeholder: (context, url) => ClipRRect( // make sure we apply clip it properly
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 11, sigmaY: 11),
-                    child: Container(
-                      alignment: Alignment.center,
-                      color: Colors.grey.withOpacity(0.1),
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+  const PopularCarousel({
+    Key? key,
+    required this.snapshot,
+    required this.carouselController,
+    required this.onPageChanged
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 256,
+      child: CarouselSlider(
+        options: CarouselOptions(
+            height: 256.0,
+            aspectRatio: 16 / 9,
+            viewportFraction: MediaQuery.of(context).orientation == Orientation.landscape ? 0.25 : 0.45,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            autoPlayAnimationDuration:
+            const Duration(milliseconds: 500),
+            onPageChanged: onPageChanged
+        ),
+        carouselController: carouselController,
+        items: [
+          ...snapshot.data!.results!.map((item) => GestureDetector(
+            onTap: () {
+              //
+            },
+            child: Container(
+              height: 256,
+              width: 170,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  imageUrl: posterUrl + item.posterPath.toString(),
+                  fit: BoxFit.scaleDown,
+                  placeholder: (context, url) => ClipRRect( // make sure we apply clip it properly
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 11, sigmaY: 11),
+                      child: Container(
+                        alignment: Alignment.center,
+                        color: Colors.grey.withOpacity(0.1),
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        )),
-      ],
-    ),
-  );
+          )),
+        ],
+      ),
+    );
+  }
+}
+
+class PageHeader extends StatelessWidget {
+  const PageHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        Navigator.push(
+            context, SlideRightToLeftRoute(page: const ProfileScreen()
+        ));
+      },
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Привет, Андрей', style: kHeaderTitle),
+                const SizedBox(height: 7),
+                Text("Посмотрим, Что будет Дальше", style: kHeaderSubtitle),
+              ],
+            ),
+            const CircleAvatar(
+              backgroundImage: NetworkImage(
+                "https://lh3.googleusercontent.com/ogw/ADea4I5KM87L_DrqXxuVO7xsFWG17sg2y_soXASSX6hS=s83-c-mo",
+              ),
+              radius: 30,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 Widget _buildBackgroundOverlay(BuildContext context, String imageUrl) {

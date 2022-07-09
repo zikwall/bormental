@@ -111,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       children: <Widget>[
                         _buildHeaderPanel(context),
                         orientation == Orientation.landscape
-                            ? buildWhatsUpHorizontal(context, categories.length)
-                            : buildWhatsUp(context, categories.length),
+                            ? WhatsUpHorizontal(countCategories: categories.length)
+                            : WhatsUp(countCategories: categories.length),
                         Expanded(
                           key: _backdropKey,
                           flex: 1,
@@ -139,10 +139,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                     child: FadeInAnimation(
                                       duration: const Duration(milliseconds: 30),
                                       child: (index == categories.length)
-                                          ? buildCardNew(context)
-                                          : buildCardCategory(
-                                          context, categories[index]
-                                      ),
+                                          ? const CardNew()
+                                          : CardCategory(card: categories[index]),
                                     ),
                                   ),
                                 );

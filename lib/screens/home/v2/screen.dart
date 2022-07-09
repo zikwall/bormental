@@ -1,6 +1,5 @@
 // native
 import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +15,7 @@ import 'package:bormental/components/modals/exit.dart';
 import 'package:bormental/components/comming/comming_soon.dart';
 import 'package:bormental/screens/menu/screen.dart';
 import 'package:bormental/screens/movie/v1/screen.dart';
-
-import 'home.dart';
+import 'package:bormental/screens/home/v2/home.dart';
 
 class Screen {
   final Widget screen;
@@ -26,7 +24,13 @@ class Screen {
   final Color backgroundColor;
   final bool useShadow;
 
-  Screen(this.screen, this.activeColor, this.backgroundColor, this.useShadow, this.inactiveColor);
+  Screen(
+      this.screen,
+      this.activeColor,
+      this.backgroundColor,
+      this.useShadow,
+      this.inactiveColor
+  );
 }
 
 final List<Screen> _screens = [
@@ -62,7 +66,6 @@ final List<Screen> _screens = [
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -70,7 +73,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin<HomeScreen> {
   // initializes
   late PageController _pageController;
-
   // states
   int currentTabIndex = 0;
 
