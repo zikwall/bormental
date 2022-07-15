@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:bormental/helpers/platform.dart';
 import 'package:bormental/screens/home/v2/horizontal.dart';
 import 'package:bormental/screens/home/v2/event.dart';
+import 'package:bormental/screens/home/v2/event_2.dart';
+import 'package:bormental/screens/home/v2/event_3.dart';
 
 final boxItemsBuilder = BoxItemBuilder();
 final rectangleItemsBuilder = RectangleItemBuilder();
@@ -116,6 +118,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> with Auto
                 debugPrint("click header");
               },
             ),
+            EventCardV3(),
             HorizontalScroll(
               builder: boxItemsBuilder,
               header: 'Сделано в России',
