@@ -53,7 +53,7 @@ class EventPromo extends StatelessWidget {
                 ),
               );
             },
-            child:  Material(
+            child: Material(
               color: Colors.white,
               elevation: 2,
               borderRadius: BorderRadius.circular(5),

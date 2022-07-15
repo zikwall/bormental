@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 // application
-import 'cards.dart';
-import 'whatsup.dart';
-import 'buttons.dart';
+import 'package:bormental/helpers/platform.dart';
+import 'package:bormental/screens//home/v1/cards.dart';
+import 'package:bormental/screens//home/v1/whatsup.dart';
+import 'package:bormental/screens//home/v1/buttons.dart';
 import 'mock.dart';
 
 // fonts
@@ -119,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (notification) {
                               if (notification is ScrollEndNotification) {
-                                print("ScrollNotification = ${_pageController.page}");
+                                debugPrint("ScrollNotification = ${_pageController.page}");
                                 var currentPage = _pageController.page?.round().toInt() ?? 0;
                                 if (_currentPageIndex != currentPage) {
                                   setState(() => _currentPageIndex = currentPage);

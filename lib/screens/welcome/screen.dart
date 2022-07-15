@@ -115,7 +115,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
     _controller.removeListener(_listener);
     _controller.dispose();
 
-    print("CLEAR RESOURCES");
+    debugPrint("CLEAR RESOURCES");
   }
 
   @override

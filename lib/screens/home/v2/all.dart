@@ -43,7 +43,7 @@ class _AllScreenState extends State<AllScreen> with AutomaticKeepAliveClientMixi
 
   Future updateState() {
     return Future.delayed(const Duration(milliseconds: 1500), () {
-      print("REFRESH ALL");
+      debugPrint("REFRESH ALL");
       updateChannels();
     });
   }

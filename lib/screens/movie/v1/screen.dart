@@ -1,7 +1,6 @@
+// native
 import 'dart:async';
 import 'dart:ui';
-
-// native
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +11,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 // application
 import 'package:bormental/transitions/slide_left.dart';
 import 'package:bormental/screens/profile/screen.dart';
-
-// local
-import 'mock.dart';
-import 'movie.dart';
-import 'constants.dart';
-import 'search.dart';
+import 'package:bormental/helpers/platform.dart';
+import 'package:bormental/screens/movie/v1/mock.dart';
+import 'package:bormental/screens/movie/v1/movie.dart';
+import 'package:bormental/screens/movie/v1/constants.dart';
+import 'package:bormental/screens/movie/v1/search.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({Key? key}) : super(key: key);
@@ -83,7 +81,7 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
               color: kPrimaryColor,
               onRefresh: () {
                 return Future.delayed(const Duration(milliseconds: 1500), () {
-                  print("OK");
+                  debugPrint("OK");
                 });
               },
               child: SingleChildScrollView(
@@ -120,8 +118,7 @@ class _MovieScreenState extends State<MovieScreen> with AutomaticKeepAliveClient
                   snapshot: snapshot,
                   carouselController: _carouselController,
                   onPageChanged: (index, reason) {
-                    setState(() {
-                    });
+                    setState(() {});
                   }
               );
             } else if (snapshot.hasError) {
